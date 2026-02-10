@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.idoit.dao.FaqDAO">
+
+    <!-- =========================
+         FAQ 전체 목록
+         ========================= -->
+    <select id="selectAll" resultType="com.idoit.dto.FaqDTO">
+        SELECT
+            fno,
+            fcategory,
+            fquestion,
+            fanswer,
+            fcreate
+        FROM faq
+        ORDER BY fcategory, fno
+    </select>
+
+    <!-- =========================
+         FAQ 단건 조회 (수정/상세)
+         ========================= -->
+    <select id="selectById" resultType="com.idoit.dto.FaqDTO">
+        SELECT
+            fno,
+            fcategory,
+            fquestion,
+            fanswer,
+            fcreate
+        FROM faq
+        WHERE fno = #{fno}
+    </select>
+
+    <!-- =========================
+         FAQ 등록
+         ========================= -->
+    <insert id="insertFaq" parameterType="com.idoit.dto.FaqDTO">
+	    <selectKey keyProperty="fno" resultType="int" order="BEFORE">
+	      SELECT faq_seq.NEXTVAL FROM dual
+	    </selectKey>
+	
+	    INSERT INTO faq (
+	      fno, fcategory, fquestion, fanswer, fcreate
+	    ) VALUES (
+	      #{fno},
+	      #{fcategory},
+	      #{fquestion},
+	      #{fanswer},
+	      SYSDATE
+	    )
+	  </insert>
+
+    <!-- =========================
+         FAQ 수정
+         ========================= -->
+    <update id="updateFaq">
+        UPDATE faq
+        SET
+            fcategory = #{fcategory},
+            fquestion = #{fquestion},
+            fanswer   = #{fanswer}
+        WHERE fno = #{fno}
+    </update>
+
+    <!-- =========================
+         FAQ 삭제
+         ========================= -->
+    <delete id="deleteFaq">
+        DELETE FROM faq
+        WHERE fno = #{fno}
+    </delete>
+    
+    <!-- =========================
+     FAQ 검색
+     ========================= -->
+	<select id="searchFaq" resultType="com.idoit.dto.FaqDTO">
+	    SELECT
+	        fno,
+	        fcategory,
+	        fquestion,
+	        fanswer,
+	        fcreate
+	    FROM faq
+	    WHERE 1=1
+	    <if test="fcategory != null and fcategory != ''">
+	        AND fcategory = #{fcategory}
+	    </if>
+	    <if test="keyword != null and keyword != ''">
+	        AND fquestion LIKE '%' || #{keyword} || '%'
+	    </if>
+	    ORDER BY fcategory, fno
+	</select>
+    
+</mapper>

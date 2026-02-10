@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.idoit.dao.MemberDAO">
+
+  <!-- =========================
+       일반 회원가입
+       ========================= -->
+  <insert id="insertMember" parameterType="com.idoit.dto.MemberDTO">
+    <selectKey keyProperty="mno" resultType="int" order="BEFORE">
+      SELECT member_seq.NEXTVAL FROM dual
+    </selectKey>
+
+    INSERT INTO member (
+      mno, mtype, memail, mpasswd, mname,
+      mgender, mbirth, mtel,
+      mzipcode, maddr, maddrdetail,
+      mauth, mstatus, mcreate
+    ) VALUES (
+      #{mno}, #{mtype}, #{memail}, #{mpasswd}, #{mname},
+      #{mgender}, #{mbirth}, #{mtel},
+      #{mzipcode}, #{maddr}, #{maddrdetail},
+      #{mauth}, 'ACTIVE', SYSDATE
+    )
+  </insert>
+
+  <!-- =========================
+       회원 번호로 조회
+       ========================= -->
+  <select id="selectMemberByMno" parameterType="int"
+          resultType="com.idoit.dto.MemberDTO">
+    SELECT
+      mno, mtype, memail, mname, mgender, mbirth, mtel,
+      mzipcode, maddr, maddrdetail,
+      mauth, mstatus, mcreate, mupdate
+    FROM member
+    WHERE mno = #{mno}
+  </select>
+
+  <!-- =========================
+       이메일 중복 체크
+       ========================= -->
+  <select id="existsByMemail" parameterType="String" resultType="int">
+    SELECT COUNT(1)
+    FROM member
+    WHERE memail = #{memail}
+  </select>
+
+  <!-- =========================
+       이메일로 회원 조회 (로그인 / 마이페이지용)
+       🔥 여기 중요
+       ========================= -->
+  <select id="findByMemail" parameterType="String"
+          resultType="com.idoit.dto.MemberDTO">
+    SELECT
+      mno, memail, mpasswd, mname, mgender, mbirth, mtel,
+      mzipcode, maddr, maddrdetail,
+      mauth, mstatus, mtype
+    FROM member
+    WHERE memail = #{memail}
+  </select>
+
+  <!-- =========================
+       소셜 회원 조회
+       ========================= -->
+  <select id="findByProvider" parameterType="map"
+          resultType="com.idoit.dto.MemberDTO">
+    SELECT
+      mno, memail, mname, mgender, mbirth, mtel,
+      mzipcode, maddr, maddrdetail,
+      mtype, mstatus, mauth,
+      mprovider, mprovider_id
+    FROM member
+    WHERE mprovider = #{provider}
+      AND mprovider_id = #{providerId}
+  </select>
+
+  <!-- =========================
+       소셜 회원 자동 가입
+       ========================= -->
+  <insert id="insertSocialMember" parameterType="com.idoit.dto.MemberDTO">
+    INSERT INTO member (
+      mno, memail, mpasswd, mname,
+      mgender, mbirth, mtel,
+      mzipcode, maddr, maddrdetail,
+      mtype, mstatus, mcreate, mauth,
+      mprovider, mprovider_id
+    ) VALUES (
+      member_seq.NEXTVAL,
+      #{memail},
+      #{mpasswd},
+      #{mname},
+      'NONE',
+      TO_DATE('1900-01-01','YYYY-MM-DD'),
+      '000-0000-0000',
+      '00000',
+      '소셜로그인',
+      '소셜로그인',
+      'PERSONAL',
+      'ACTIVE',
+      SYSDATE,
+      'ROLE_USER',
+      #{mprovider},
+      #{mproviderId}
+    )
+  </insert>
+
+  <!-- =========================
+       회원 정보 수정
+       ========================= -->
+  <update id="updateMemberInfo" parameterType="com.idoit.dto.MemberDTO">
+	  UPDATE member
+	  SET
+	    mname = #{mname},
+	    mtel = #{mtel},
+	    mzipcode = #{mzipcode},
+	    maddr = #{maddr},
+	    maddrdetail = #{maddrdetail},
+	    mupdate = SYSDATE
+	  WHERE mno = #{mno}
+	</update>
+
+  <!-- =========================
+       회원 탈퇴
+       ========================= -->
+  <delete id="deleteMember" parameterType="int">
+    DELETE FROM member
+    WHERE mno = #{mno}
+  </delete>
+	
+	<select id="findByMno" parameterType="int" resultType="com.idoit.dto.MemberDTO">
+	  SELECT *
+	  FROM member
+	  WHERE mno = #{mno}
+	</select>
+	
+</mapper>

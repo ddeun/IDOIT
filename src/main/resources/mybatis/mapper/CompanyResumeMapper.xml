@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.idoit.dao.CompanyResumeDAO">
+
+  <select id="findResumeByAnoOwned" resultType="com.idoit.dto.CompanyResumeViewDTO">
+    SELECT
+      a.ano        AS ano,
+      a.astatus    AS astatus,
+      a.adate      AS adate,
+
+      j.jno        AS jno,
+      j.jtitle     AS jtitle,
+
+      m.mno        AS applicantMno,
+      m.mname      AS applicantName,
+      m.memail     AS applicantEmail,
+
+      r.rno        AS rno,
+      r.rtitle     AS rtitle,
+      r.rjobrole   AS rjobrole,
+      r.rsummary   AS rsummary,
+      r.rcreate    AS rcreate,
+      r.rupdate    AS rupdate
+
+    FROM application a
+    JOIN job_posting j ON j.jno = a.jno
+    JOIN company c     ON c.cno = j.cno
+    JOIN member m      ON m.mno = a.mno
+    LEFT JOIN resume r ON r.rno = a.rno
+    WHERE a.ano = #{ano}
+      AND c.mno = #{companyMno}
+  </select>
+
+</mapper>

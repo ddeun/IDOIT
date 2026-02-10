@@ -1,0 +1,153 @@
+@charset "UTF-8";
+
+/* =========================
+   Admin Notice List Page
+========================= */
+
+body {
+  background: #F5F7FA;
+  color: #1A1A1A;
+  line-height: 1.6;
+}
+
+/* =========================
+   페이지 제목
+========================= */
+h2 {
+  margin: 40px 0 30px;
+  font-size: 22px;
+  font-weight: 700;
+  color: #0F2E55;
+  text-align: center;
+}
+
+/* =========================
+   상단 컨트롤 영역
+========================= */
+.notice-admin-top {
+  width: 900px;
+  margin: 0 auto 15px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* 공통 버튼 */
+.notice-admin-top a,
+.notice-table a,
+.notice-table button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 6px 12px;
+  font-size: 13px;
+  border-radius: 6px;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+/* 파란 outline 버튼 */
+.btn-outline {
+  background: #0F2E55;
+  color: #FFFFFF;     
+  border: 1px solid #0F2E55;
+}
+
+.btn-outline:hover {
+  background: #0c2647;
+  border-color: #0c2647;
+}
+
+/* 주황 primary 버튼 */
+.btn-primary {
+  background: #ff7a00;
+  color: #FFFFFF;
+  border: 1px solid #ff7a00;
+}
+
+.btn-primary:hover {
+  background: #e86f00;
+  border-color: #e86f00;
+}
+
+/* =========================
+   테이블 래퍼
+========================= */
+.notice-table-wrap {
+  width: 900px;
+  margin: 0 auto 60px;
+  background: #FFFFFF;
+  border: 1px solid #E5E7EB;
+  border-radius: 14px;
+  overflow: hidden;
+}
+
+/* =========================
+   테이블
+========================= */
+.notice-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  text-align: center;
+}
+
+.notice-table th {
+  background: #F9FAFB;
+  font-weight: 600;
+  color: #0F2E55;
+  padding: 14px;
+  border-bottom: 1px solid #E5E7EB;
+}
+
+.notice-table td {
+  padding: 12px 14px;
+  border-bottom: 1px solid #E5E7EB;
+  font-size: 14px;
+}
+
+/* 마지막 줄 */
+.notice-table tr:last-child td {
+  border-bottom: none;
+}
+
+/* 제목 컬럼 */
+.notice-table td.title {
+  text-align: left;
+}
+
+.notice-table td.title a {
+  color: #0F2E55;
+}
+
+/* 고정 공지 아이콘 */
+.notice-table .pin {
+  margin-right: 6px;
+}
+
+/* hover */
+.notice-table tr:hover {
+  background: #F9FAFB;
+}
+
+/* =========================
+   관리 버튼 영역
+========================= */
+.notice-table .manage {
+  white-space: nowrap;
+}
+
+.notice-table form {
+  display: inline-block;
+  margin: 0;
+}
+
+.notice-table button {
+  background: #FFFFFF;
+  color: #0F2E55;
+  border: 1px solid #0F2E55;
+}
+
+.notice-table button:hover {
+  background: #F5F7FA;
+}

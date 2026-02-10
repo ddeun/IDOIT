@@ -1,0 +1,247 @@
+@charset "UTF-8";
+
+/* =========================
+   Privacy Policy Page
+========================= */
+
+/* 페이지 배경 */
+body {
+  background: #f3f4f6;
+}
+
+/* 카드 레이아웃 (A4 문서 느낌) */
+.policy-wrap {
+  max-width: 1100px;
+  margin: 60px auto;
+  padding: 56px 60px;
+  background: #ffffff;
+  border-radius: 18px;
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.08);
+
+  line-height: 1.8;
+  letter-spacing: -0.01em;
+  font-size: 15px;
+  color: #1f2937;
+}
+
+/* =========================
+   Page Header
+========================= */
+
+.policy-wrap > h2 {
+  text-align: center;
+  font-size: 28px;
+  font-weight: 700;
+  margin-bottom: 18px;
+  color: #0f2e55;
+}
+
+/* 버전 표시 */
+.policy-wrap > p strong {
+  display: inline-block;
+  margin-bottom: 12px;
+  font-size: 14px;
+  color: #374151;
+}
+
+/* 구분선 */
+.policy-wrap hr {
+  border: none;
+  border-top: 1px solid #e5e7eb;
+  margin: 48px 0;
+}
+
+/* =========================
+   Table of Contents
+========================= */
+
+.policy-toc {
+  background: #f9fafb;
+  border: 1px solid #e5e7eb;
+  border-radius: 14px;
+  padding: 28px 32px;
+  margin-bottom: 48px;
+}
+
+.policy-toc ul {
+  list-style: decimal;
+  padding-left: 22px;
+}
+
+.policy-toc li {
+  font-size: 14px;
+  margin-bottom: 8px;
+}
+
+.policy-toc a {
+  color: #374151;
+  text-decoration: none;
+}
+
+.policy-toc a:hover {
+  color: #0f2e55;
+  text-decoration: underline;
+}
+
+/* =========================
+   Section Titles
+========================= */
+
+.policy-wrap h3 {
+  font-size: 22px;
+  font-weight: 700;
+  margin: 64px 0 24px;
+  color: #0f2e55;
+  scroll-margin-top: 120px; /* 🔥 목차 클릭 보정 */
+}
+
+.policy-wrap h4 {
+  font-size: 16px;
+  font-weight: 600;
+  margin: 30px 0 12px;
+  color: #111827;
+}
+
+/* 본문 */
+.policy-wrap p {
+  margin-bottom: 16px;
+  color: #374151;
+}
+
+.policy-toc ul {
+  list-style: decimal;
+  padding-left: 22px;
+
+  display: flex;
+  flex-wrap: wrap;        /* 두 줄로 떨어지게 */
+  row-gap: 8px;
+}
+
+.policy-toc li {
+  width: 50%;             /* 정확히 반씩 */
+  font-size: 14px;
+  color: #374151;
+}
+
+/* =========================
+   Table Title
+========================= */
+
+.policy-table-title {
+  margin: 60px 0 14px;
+  font-size: 17px;
+  font-weight: 700;
+  color: #0f2e55;
+}
+
+/* =========================
+   Policy Table (Dense & Wide)
+========================= */
+
+.policy-table {
+  width: 100%;
+  border-collapse: collapse;
+  table-layout: fixed;
+  margin-bottom: 64px;
+  font-size: 13.5px;
+  background: #ffffff;
+}
+
+/* 컬럼 비율 (정보량 기준 최적화) */
+.policy-table th:nth-child(1),
+.policy-table td:nth-child(1) { width: 12%; }
+
+.policy-table th:nth-child(2),
+.policy-table td:nth-child(2) { width: 30%; }
+
+.policy-table th:nth-child(3),
+.policy-table td:nth-child(3) { width: 32%; }
+
+.policy-table th:nth-child(4),
+.policy-table td:nth-child(4) { width: 13%; }
+
+.policy-table th:nth-child(5),
+.policy-table td:nth-child(5) { width: 13%; }
+
+/* 헤더 */
+.policy-table thead th {
+  background: #f3f4f6;
+  color: #111827;
+  font-weight: 600;
+  text-align: center;
+  padding: 10px 10px;
+  border: 1px solid #e5e7eb;
+}
+
+/* 바디 */
+.policy-table tbody td {
+  padding: 10px 12px;
+  border: 1px solid #e5e7eb;
+  vertical-align: top;
+  line-height: 1.55;
+  color: #374151;
+}
+
+/* 왼쪽 기준 컬럼 */
+.policy-table tbody td:first-child {
+  background: #fafafa;
+  font-weight: 600;
+  color: #111827;
+}
+
+/* =========================
+   Responsive
+========================= */
+
+@media (max-width: 768px) {
+  body {
+    background: #ffffff;
+  }
+
+  .policy-wrap {
+    padding: 28px 20px;
+    box-shadow: none;
+    border-radius: 0;
+    font-size: 14px;
+  }
+
+  .policy-wrap h2 {
+    font-size: 24px;
+  }
+
+  .policy-wrap h3 {
+    font-size: 20px;
+  }
+
+  .policy-table {
+    font-size: 13px;
+  }
+
+  .policy-table thead {
+    display: none;
+  }
+
+  .policy-table,
+  .policy-table tbody,
+  .policy-table tr,
+  .policy-table td {
+    display: block;
+    width: 100%;
+  }
+
+  .policy-table tr {
+    border: 1px solid #e5e7eb;
+    margin-bottom: 16px;
+    border-radius: 12px;
+    overflow: hidden;
+  }
+
+  .policy-table td {
+    border: none;
+    border-bottom: 1px solid #e5e7eb;
+  }
+
+  .policy-table td:last-child {
+    border-bottom: none;
+  }
+}

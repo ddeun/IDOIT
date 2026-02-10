@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.idoit.dao.Board_commentDAO">
+
+    <!-- =========================
+         댓글 목록
+         ========================= -->
+    <select id="selectCommentList"
+            parameterType="int"
+            resultType="com.idoit.dto.Board_commentDTO">
+        SELECT
+            c.bcno,
+            c.bccontent,
+            c.bcstatus,
+            c.bccreate,
+            c.bcsecret,
+            c.bno,
+            c.mno,
+
+            m.mname  AS realWriterName,
+            m.memail AS realWriterEmail
+
+        FROM board_comment c
+        LEFT JOIN member m ON c.mno = m.mno
+        WHERE c.bno = #{bno}
+        ORDER BY c.bcno ASC
+    </select>
+
+    <!-- =========================
+         댓글 등록
+         ========================= -->
+    <insert id="insertComment"
+            parameterType="com.idoit.dto.Board_commentDTO">
+        INSERT INTO board_comment (
+            bcno,
+            bccontent,
+            bcstatus,
+            bccreate,
+            bcsecret,
+            bno,
+            mno
+        ) VALUES (
+            board_comment_seq.NEXTVAL,
+            #{bccontent},
+            'NORMAL',
+            SYSDATE,
+            #{bcsecret},
+            #{bno},
+            #{mno}
+        )
+    </insert>
+
+    <!-- =========================
+         댓글 수정
+         ========================= -->
+    <update id="updateComment"
+            parameterType="com.idoit.dto.Board_commentDTO">
+        UPDATE board_comment
+        SET
+            bccontent = #{bccontent}
+        WHERE bcno = #{bcno}
+    </update>
+
+    <!-- =========================
+         댓글 삭제 (단건)
+         ========================= -->
+    <delete id="deleteComment"
+            parameterType="int">
+        DELETE FROM board_comment
+        WHERE bcno = #{bcno}
+    </delete>
+
+    <!-- =========================
+         게시글 삭제 시 댓글 전체 삭제
+         ========================= -->
+    <delete id="deleteCommentByBoard"
+            parameterType="int">
+        DELETE FROM board_comment
+        WHERE bno = #{bno}
+    </delete>
+
+</mapper>

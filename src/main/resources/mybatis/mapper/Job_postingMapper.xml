@@ -1,0 +1,261 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.idoit.dao.Job_postingDAO">
+
+  <!-- 리스트 카운트 -->
+  <select id="count" parameterType="map" resultType="int">
+    SELECT COUNT(*)
+    FROM job_posting j
+    JOIN company c ON c.cno = j.cno
+    <where>
+
+      <!-- ✅ 일반 사용자 리스트는 승인된 공고만 -->
+      j.jstatus = 'APPROVED'
+
+      <if test="q != null and q != ''">
+        AND (
+          j.jtitle LIKE '%'||#{q}||'%'
+          OR j.jposition LIKE '%'||#{q}||'%'
+          OR c.cname LIKE '%'||#{q}||'%'
+        )
+      </if>
+
+      <!-- ✅ cat 필터 (JSON 배열/비JSON 둘 다 대응 + trim) -->
+      <if test="cat != null and cat != ''">
+        AND (
+          -- JSON 배열 형태: ["A","B"] -> "cat" 토큰으로 매칭
+          j.jcategories LIKE '%' || '\"' || TRIM(#{cat}) || '\"' || '%'
+          OR
+          -- 혹시 큰따옴표 없이 저장된 케이스 대응
+          j.jcategories LIKE '%' || TRIM(#{cat}) || '%'
+        )
+      </if>
+
+    </where>
+  </select>
+
+  <!-- 리스트 조회 -->
+  <select id="list" parameterType="map" resultType="com.idoit.dto.Job_postingDTO">
+    SELECT
+      j.jno, j.jtitle, j.jposition, j.jcareer, j.jemployment, j.jlocation, j.jsal,
+      j.jcontent, j.jdeadline, j.jlink, j.jstatus, j.jcreate, j.jupdate,
+      j.cno, j.jcategories, j.jskills,
+      c.cname, c.cimage
+    FROM job_posting j
+    JOIN company c ON c.cno = j.cno
+    <where>
+
+      <!-- ✅ 일반 사용자 리스트는 승인된 공고만 -->
+      j.jstatus = 'APPROVED'
+
+      <if test="q != null and q != ''">
+        AND (
+          j.jtitle LIKE '%'||#{q}||'%'
+          OR j.jposition LIKE '%'||#{q}||'%'
+          OR c.cname LIKE '%'||#{q}||'%'
+        )
+      </if>
+
+      <!-- ✅ cat 필터 (JSON 배열/비JSON 둘 다 대응 + trim) -->
+      <if test="cat != null and cat != ''">
+        AND (
+          j.jcategories LIKE '%' || '\"' || TRIM(#{cat}) || '\"' || '%'
+          OR
+          j.jcategories LIKE '%' || TRIM(#{cat}) || '%'
+        )
+      </if>
+
+    </where>
+    ORDER BY j.jno DESC
+    OFFSET #{offset} ROWS FETCH NEXT #{size} ROWS ONLY
+  </select>
+
+  <!-- 상세 -->
+  <select id="detail" parameterType="int" resultType="com.idoit.dto.Job_postingDTO">
+    SELECT
+      j.jno, j.jtitle, j.jposition, j.jcareer, j.jemployment, j.jlocation, j.jsal,
+      j.jcontent, j.jdeadline, j.jlink, j.jstatus, j.jcreate, j.jupdate,
+      j.cno, j.jcategories, j.jskills,
+      c.cname, c.cimage, c.ccontent
+    FROM job_posting j
+    JOIN company c ON c.cno = j.cno
+    WHERE j.jno = #{jno}
+  </select>
+
+  <select id="detailOwnedByCno" resultType="com.idoit.dto.Job_postingDTO">
+    SELECT
+      j.jno, j.jtitle, j.jposition, j.jcareer, j.jemployment, j.jlocation, j.jsal,
+      j.jcontent, j.jdeadline, j.jlink, j.jstatus, j.jcreate, j.jupdate,
+      j.cno, j.jcategories, j.jskills,
+      c.cname, c.cimage, c.ccontent
+    FROM job_posting j
+    JOIN company c ON c.cno = j.cno
+    WHERE j.jno = #{jno}
+      AND j.cno = #{cno}
+  </select>
+
+  <insert id="insert" parameterType="com.idoit.dto.Job_postingDTO">
+    <selectKey keyProperty="jno" resultType="int" order="BEFORE">
+      SELECT job_posting_seq.NEXTVAL FROM dual
+    </selectKey>
+
+    INSERT INTO job_posting (
+      jno, jtitle, jposition, jcareer, jemployment, jlocation, jsal,
+      jcontent, jdeadline, jlink, jstatus, jcreate, jupdate,
+      cno, jcategories, jskills
+    ) VALUES (
+      #{jno, jdbcType=NUMERIC},
+      #{jtitle, jdbcType=VARCHAR},
+      #{jposition, jdbcType=VARCHAR},
+      #{jcareer, jdbcType=VARCHAR},
+      #{jemployment, jdbcType=VARCHAR},
+      #{jlocation, jdbcType=VARCHAR},
+      #{jsal, jdbcType=VARCHAR},
+      #{jcontent, jdbcType=CLOB},
+      #{jdeadline, jdbcType=DATE},
+      #{jlink, jdbcType=VARCHAR},
+      #{jstatus, jdbcType=VARCHAR},
+      SYSDATE,
+      SYSDATE,
+      #{cno, jdbcType=NUMERIC},
+      #{jcategories, jdbcType=VARCHAR},
+      #{jskills, jdbcType=CLOB}
+    )
+  </insert>
+
+  <update id="update" parameterType="com.idoit.dto.Job_postingDTO">
+    UPDATE job_posting
+    SET
+      jtitle      = #{jtitle},
+      jposition   = #{jposition},
+      jcareer     = #{jcareer},
+      jemployment = #{jemployment},
+      jlocation   = #{jlocation},
+      jsal        = #{jsal},
+      jcontent    = #{jcontent},
+      jdeadline   = #{jdeadline},
+      jlink       = #{jlink},
+      jcategories = #{jcategories},
+      jskills     = #{jskills},
+      jupdate     = SYSDATE
+    WHERE jno = #{jno}
+      AND cno = #{cno}
+  </update>
+
+  <delete id="deleteOwnedByCno">
+    DELETE FROM job_posting
+    WHERE jno = #{jno}
+      AND cno = #{cno}
+  </delete>
+  
+  <update id="softDeleteOwnedByCno">
+	  UPDATE job_posting
+	  SET jstatus = 'DELETED',
+	      jupdate = SYSDATE
+	  WHERE jno = #{jno}
+	    AND cno = #{cno}
+  </update>
+  
+
+  <select id="findPending" resultType="com.idoit.dto.Job_postingDTO">
+    SELECT
+      j.jno,
+      j.jtitle,
+      j.jstatus,
+      j.jcreate,
+      j.cno,
+      c.cname,
+      c.cimage
+    FROM job_posting j
+    JOIN company c ON c.cno = j.cno
+    WHERE j.jstatus = 'PENDING'
+    ORDER BY j.jcreate DESC
+  </select>
+
+  <update id="approve" parameterType="long">
+    UPDATE job_posting
+    SET jstatus = 'APPROVED'
+    WHERE jno = #{value}
+  </update>
+
+  <update id="reject" parameterType="long">
+    UPDATE job_posting
+    SET jstatus = 'REJECTED'
+    WHERE jno = #{value}
+  </update>
+
+  <!-- 메인 슬라이더: 최신 3개 -->
+  <select id="selectFeatured" resultType="com.idoit.dto.Job_postingDTO">
+    SELECT
+      j.jno, j.jtitle, j.jposition, j.jcareer, j.jemployment, j.jlocation,
+      j.cno, c.cname, c.cimage, j.jcreate
+    FROM job_posting j
+    JOIN company c ON c.cno = j.cno
+    WHERE j.jstatus = 'APPROVED'
+    ORDER BY j.jcreate DESC
+    FETCH FIRST 3 ROWS ONLY
+  </select>
+
+  <!-- 메인 리스트: 최신 10개 -->
+  <select id="selectLatest10" resultType="com.idoit.dto.Job_postingDTO">
+    SELECT
+      j.jno, j.jtitle, j.jposition, j.jcareer, j.jemployment, j.jlocation,
+      j.cno, c.cname, c.cimage, j.jcreate
+    FROM job_posting j
+    JOIN company c ON c.cno = j.cno
+    WHERE j.jstatus = 'APPROVED'
+    ORDER BY j.jcreate DESC
+    FETCH FIRST 10 ROWS ONLY
+  </select>
+  
+   <!-- ========================= -->
+  <!-- ✅ 여기부터 "내 공고" 전용 추가 -->
+  <!-- 기준: company.mno = #{mno} -->
+  <!-- ========================= -->
+
+  <select id="countByCompanyOwner" parameterType="map" resultType="int">
+    SELECT COUNT(*)
+    FROM job_posting j
+    JOIN company c ON c.cno = j.cno
+    <where>
+      c.mno = #{mno}
+
+      <if test="q != null and q != ''">
+        AND (
+          j.jtitle LIKE '%'||#{q}||'%'
+          OR j.jposition LIKE '%'||#{q}||'%'
+        )
+      </if>
+    </where>
+  </select>
+
+  <!-- ✅ (수정) 공고별 지원자 수(applyCnt) 포함 -->
+  <select id="listByCompanyOwner" parameterType="map" resultType="com.idoit.dto.Job_postingDTO">
+	     SELECT
+	       j.jno, j.jtitle, j.jposition, j.jcareer, j.jemployment, j.jlocation, j.jsal,
+	       j.jcontent, j.jdeadline, j.jlink, j.jstatus, j.jcreate, j.jupdate,
+	       j.cno, j.jcategories, j.jskills,
+	       c.cname, c.cimage,
+	       (SELECT COUNT(*)
+	          FROM application a
+	         WHERE a.jno = j.jno) AS applyCnt
+	     FROM job_posting j
+	     JOIN company c ON c.cno = j.cno
+	     <where>
+	       c.mno = #{mno}
+	   
+	       <if test="q != null and q != ''">
+	         AND (
+	           j.jtitle LIKE '%'||#{q}||'%'
+	           OR j.jposition LIKE '%'||#{q}||'%'
+	         )
+	       </if>
+	     </where>
+	     ORDER BY j.jno DESC
+	     OFFSET #{offset} ROWS FETCH NEXT #{size} ROWS ONLY
+	</select>
+	
+</mapper>

@@ -1,0 +1,309 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.idoit.dao.InterviewDAO">
+
+  <resultMap id="InterviewMap" type="com.idoit.dto.InterviewDTO">
+    <id property="ino" column="ino"/>
+    <result property="mno" column="mno"/>
+
+    <result property="ititle" column="ititle"/>
+    <result property="isummary" column="isummary"/>
+    <result property="icontent" column="icontent"/>
+
+    <result property="iimagePath" column="iimage_path"/>
+    <result property="icategory" column="icategory"/>
+    <result property="itags" column="itags"/>
+
+    <result property="iview" column="iview"/>
+    <result property="ireadmin" column="ireadmin"/>
+
+    <result property="icreate" column="icreate"/>
+    <result property="iupdate" column="iupdate"/>
+  </resultMap>
+
+  <!-- 목록 -->
+  <select id="list" resultMap="InterviewMap">
+    select *
+    from interview
+    where 1=1
+
+    <!-- 검색 -->
+    <if test="keyword != null and keyword != ''">
+      and (
+        ititle like '%'||#{keyword}||'%'
+        or isummary like '%'||#{keyword}||'%'
+        or icontent like '%'||#{keyword}||'%'
+      )
+    </if>
+
+    <!-- ✅ 카테고리키 기반 필터 (점핏 기준 확장) -->
+    <if test="categoryKey != null and categoryKey != ''">
+      <choose>
+
+        <!-- 서버/백엔드 개발자 -->
+        <when test="categoryKey == 'backend'">
+          and (
+            icategory like '%백엔드%'
+            or icategory like '%서버%'
+            or icategory like '%backend%'
+            or icategory like '%Back-end%'
+          )
+        </when>
+
+        <!-- 프론트엔드 개발자 -->
+        <when test="categoryKey == 'frontend'">
+          and (
+            icategory like '%프론트%'
+            or icategory like '%프론트엔드%'
+            or icategory like '%frontend%'
+            or icategory like '%Front-end%'
+          )
+        </when>
+
+        <!-- 웹 풀스택 개발자 -->
+        <when test="categoryKey == 'fullstack'">
+          and (
+            icategory like '%풀스택%'
+            or icategory like '%fullstack%'
+            or icategory like '%Fullstack%'
+          )
+        </when>
+
+        <!-- 안드로이드 개발자 -->
+        <when test="categoryKey == 'android'">
+          and (
+            icategory like '%안드로이드%'
+            or icategory like '%Android%'
+          )
+        </when>
+
+        <!-- iOS 개발자 -->
+        <when test="categoryKey == 'ios'">
+          and (
+            icategory like '%iOS%'
+            or icategory like '%IOS%'
+            or icategory like '%아이오에스%'
+          )
+        </when>
+
+        <!-- 크로스플랫폼 앱개발자 -->
+        <when test="categoryKey == 'cross'">
+          and (
+            icategory like '%크로스%'
+            or icategory like '%cross%'
+            or itags like '%Flutter%'
+            or itags like '%ReactNative%'
+            or itags like '%React-Native%'
+            or itags like '%Ionic%'
+            or itags like '%Xamarin%'
+          )
+        </when>
+
+        <!-- 게임 클라이언트 개발자 -->
+        <when test="categoryKey == 'game'">
+          and (
+            icategory like '%게임%'
+            or icategory like '%클라이언트%'
+            or icategory like '%Unity%'
+            or icategory like '%Unreal%'
+          )
+        </when>
+
+        <!-- DBA -->
+        <when test="categoryKey == 'dba'">
+          and (
+            icategory like '%DBA%'
+            or icategory like '%데이터베이스%'
+            or icategory like '%Database%'
+          )
+        </when>
+
+        <!-- 빅데이터 엔지니어 -->
+        <when test="categoryKey == 'bigdata'">
+          and (
+            icategory like '%빅데이터%'
+            or icategory like '%데이터%'
+            or icategory like '%BigData%'
+            or icategory like '%Data%'
+          )
+        </when>
+
+        <!-- 인공지능/머신러닝 -->
+        <when test="categoryKey == 'aiml'">
+          and (
+            icategory like '%AI%'
+            or icategory like '%ML%'
+            or icategory like '%머신러닝%'
+            or icategory like '%인공지능%'
+            or icategory like '%딥러닝%'
+            or icategory like '%Machine%'
+            or icategory like '%Deep%'
+          )
+        </when>
+
+        <!-- devops/시스템 엔지니어 -->
+        <when test="categoryKey == 'devops'">
+          and (
+            icategory like '%devops%'
+            or icategory like '%DevOps%'
+            or icategory like '%시스템%'
+            or icategory like '%SRE%'
+            or itags like '%Kubernetes%'
+            or itags like '%Docker%'
+            or itags like '%AWS%'
+          )
+        </when>
+
+        <!-- 정보보안 담당자 -->
+        <when test="categoryKey == 'security'">
+          and (
+            icategory like '%보안%'
+            or icategory like '%security%'
+            or icategory like '%Security%'
+            or icategory like '%정보보안%'
+          )
+        </when>
+
+        <!-- QA 엔지니어 -->
+        <when test="categoryKey == 'qa'">
+          and (
+            icategory like '%QA%'
+            or icategory like '%SQA%'
+            or icategory like '%테스트%'
+            or icategory like '%품질%'
+          )
+        </when>
+
+        <!-- 개발 PM -->
+        <when test="categoryKey == 'pm'">
+          and (
+            icategory like '%PM%'
+            or icategory like '%기획%'
+            or icategory like '%프로덕트%'
+            or icategory like '%Product%'
+          )
+        </when>
+
+        <!-- HW/임베디드 -->
+        <when test="categoryKey == 'embedded'">
+          and (
+            icategory like '%임베디드%'
+            or icategory like '%HW%'
+            or icategory like '%하드웨어%'
+            or icategory like '%펌웨어%'
+            or icategory like '%Firmware%'
+          )
+        </when>
+
+        <!-- SW/솔루션 -->
+        <when test="categoryKey == 'solution'">
+          and (
+            icategory like '%솔루션%'
+            or icategory like '%SW%'
+            or icategory like '%SI%'
+            or icategory like '%Solution%'
+          )
+        </when>
+
+        <!-- VR/AR/3D -->
+        <when test="categoryKey == 'vrar3d'">
+          and (
+            icategory like '%VR%'
+            or icategory like '%AR%'
+            or icategory like '%3D%'
+            or icategory like '%XR%'
+            or icategory like '%메타버스%'
+          )
+        </when>
+
+        <!-- 기술지원 -->
+        <when test="categoryKey == 'support'">
+          and (
+            icategory like '%기술지원%'
+            or icategory like '%CS%'
+            or icategory like '%고객지원%'
+            or icategory like '%Support%'
+          )
+        </when>
+
+        <!-- 기타는 일단 필터 안 걸리게 -->
+        <otherwise>
+          <!-- nothing -->
+        </otherwise>
+
+      </choose>
+    </if>
+
+    <!-- 태그 -->
+    <if test="tag != null and tag != ''">
+      and itags like '%'||#{tag}||'%'
+    </if>
+
+    order by icreate desc
+  </select>
+
+  <!-- 상세 -->
+  <select id="detail" parameterType="int" resultMap="InterviewMap">
+    select *
+    from interview
+    where ino = #{ino}
+  </select>
+
+  <!-- 조회수 증가 -->
+  <update id="increaseView" parameterType="int">
+    update interview
+    set iview = nvl(iview,0) + 1,
+        iupdate = sysdate
+    where ino = #{ino}
+  </update>
+
+  <!-- 등록 -->
+  <insert id="insert" parameterType="com.idoit.dto.InterviewDTO">
+    <selectKey keyProperty="ino" resultType="int" order="BEFORE">
+      SELECT interview_seq.NEXTVAL FROM dual
+    </selectKey>
+
+    insert into interview (
+      ino, mno, ititle, isummary, icontent,
+      iimage_path, icategory, itags,
+      iview, ireadmin, icreate, iupdate
+    ) values (
+      #{ino},
+      #{mno},
+      #{ititle},
+      #{isummary},
+      #{icontent},
+      #{iimagePath},
+      #{icategory},
+      #{itags},
+      0,
+      #{ireadmin},
+      sysdate,
+      sysdate
+    )
+  </insert>
+
+  <!-- 수정 -->
+  <update id="update" parameterType="com.idoit.dto.InterviewDTO">
+    update interview
+    set
+      ititle = #{ititle},
+      isummary = #{isummary},
+      icontent = #{icontent},
+      iimage_path = #{iimagePath},
+      icategory = #{icategory},
+      itags = #{itags},
+      ireadmin = #{ireadmin},
+      iupdate = sysdate
+    where ino = #{ino}
+  </update>
+
+  <!-- 삭제 -->
+  <delete id="delete" parameterType="int">
+    delete from interview
+    where ino = #{ino}
+  </delete>
+
+</mapper>

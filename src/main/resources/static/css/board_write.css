@@ -1,0 +1,187 @@
+@charset "UTF-8";
+
+/* =========================
+   컬러 변수
+========================= */
+:root{
+  --base-color:#0F2E55;
+  --bg-light:#F5F7FA;
+  --bg-white:#FFFFFF;
+  --border-light:#E5E7EB;
+  --text-main:#1A1A1A;
+  --text-sub:#6B7280;
+}
+
+/* =========================
+   페이지 배경
+========================= */
+body{
+  background:var(--bg-light);
+}
+
+/* =========================
+   카드 박스
+========================= */
+.board-box{
+  width:1000px;                 /* list 계열과 통일 */
+  margin:60px auto;
+  background:var(--bg-white);
+  border:1px solid var(--border-light);
+  border-radius:12px;
+}
+
+/* =========================
+   헤더 (중앙·미니멀)
+========================= */
+.board-header{
+  padding: 34px 36px 30px;
+  border-bottom: 1px solid var(--border-light);
+  text-align: center;
+
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--base-color);
+  letter-spacing: -0.02em;
+}
+
+/* =========================
+   폼 영역
+========================= */
+.board-form{
+  padding:36px;
+}
+
+/* 테이블 레이아웃 */
+.board-form table{
+  width:100%;
+  border-collapse:separate;
+  border-spacing:0 18px;
+}
+
+.board-form th{
+  width:140px;
+  text-align:left;
+  padding:10px 14px;
+  font-size:14px;
+  font-weight:600;
+  background:#F9FAFB;
+  border-radius:6px;
+  vertical-align:top;
+  color:var(--text-main);
+}
+
+.board-form td{
+  padding:0 10px;
+}
+
+/* =========================
+   입력 필드
+========================= */
+.board-form input[type="text"],
+.board-form select{
+  width:100%;
+  padding:10px 12px;
+  font-size:14px;
+  border:1px solid #D1D5DB;
+  border-radius:6px;
+}
+
+.board-form input[type="text"]:focus,
+.board-form select:focus{
+  outline:none;
+  border-color:var(--base-color);
+}
+
+/* 체크박스 */
+.board-form label{
+  font-size:14px;
+  color:var(--text-main);
+  display:inline-flex;
+  align-items:center;
+  gap:6px;
+}
+
+/* =========================
+   Summernote
+========================= */
+.note-editor.note-frame{
+  border:1px solid var(--border-light);
+  border-radius:8px;
+}
+
+.note-toolbar{
+  background:#F9FAFB;
+  border-bottom:1px solid var(--border-light);
+}
+
+.note-statusbar{
+  border-top:1px solid var(--border-light);
+}
+
+/* =========================
+   하단 버튼 영역
+========================= */
+.form-footer{
+  padding:24px 36px;
+  border-top:1px solid var(--border-light);
+  display:flex;
+  justify-content:flex-end;
+  gap:10px;
+}
+
+/* Primary 버튼 (네이비 통일) */
+.btn-primary{
+  background:var(--base-color);
+  color:#ffffff;
+  border:1px solid var(--base-color);
+  padding:10px 22px;
+  border-radius:6px;
+  font-size:14px;
+  font-weight:600;
+  cursor:pointer;
+}
+
+/* Outline 버튼 */
+.btn-outline{
+  background:#fff;
+  color:var(--base-color);
+  border:1px solid var(--base-color);
+  padding:10px 22px;
+  border-radius:6px;
+  font-size:14px;
+  font-weight:600;
+  cursor:pointer;
+}
+
+.btn-outline:hover{
+  background:#F5F7FA;
+}
+
+/* =========================
+   board write 카드 뒤 네이비 히어로 배경
+========================= */
+body{
+  position: relative;
+}
+
+/* 네이비 배경 레이어 */
+body::before{
+  content:"";
+  position:absolute;
+  top:0;                        /* 헤더 아래부터 시작 */
+  left:50%;
+  transform:translateX(-50%);
+
+  width:100vw;
+  height:260px;                 /* 네이비 영역 높이 */
+
+  background:var(--base-color);
+  z-index:-1;
+}
+
+/* 카드가 네이비 위로 오도록 */
+.board-box{
+  position:relative;
+  z-index:1;
+}
+

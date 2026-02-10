@@ -1,0 +1,274 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.idoit.dao.ResumeDAO">
+
+    <select id="findOneByOwner" parameterType="map" resultType="com.idoit.dto.ResumeDTO">
+	    SELECT rno, rtitle, rimage, rjobrole, rsummary, rcreate, rupdate, mno
+	    FROM resume
+	    WHERE rno = #{rno} AND mno = #{mno}
+	</select>
+	
+	<select id="findByMno" parameterType="int" resultType="com.idoit.dto.ResumeDTO">
+	    SELECT rno, rtitle, rimage, rjobrole, rsummary, rcreate, rupdate, mno
+	    FROM resume
+	    WHERE mno = #{mno}
+	    ORDER BY rno DESC
+	</select>
+
+    <insert id="insertResume">
+	    <selectKey keyProperty="rno" resultType="int" order="BEFORE">
+	        SELECT RESUME_SEQ.NEXTVAL FROM DUAL
+	    </selectKey>
+	    INSERT INTO resume (rno, rtitle, rimage, rjobrole, rsummary, mno, rcreate, rupdate)
+	    VALUES (#{rno}, #{rtitle}, #{rimage, jdbcType=VARCHAR}, #{rjobrole, jdbcType=VARCHAR}, #{rsummary, jdbcType=VARCHAR}, #{mno}, SYSDATE, SYSDATE)
+	</insert>
+
+    <update id="updateResume" parameterType="com.idoit.dto.ResumeDTO">
+	  UPDATE resume
+	  SET rtitle = #{rtitle},
+	      rjobrole = #{rjobrole, jdbcType=VARCHAR},
+	      rsummary = #{rsummary, jdbcType=VARCHAR},
+	      rupdate = SYSDATE
+	      <if test="rimage != null and rimage != ''">
+	        , rimage = #{rimage, jdbcType=VARCHAR}
+	      </if>
+	  WHERE rno = #{rno}
+	    AND mno = #{mno}
+	</update>
+
+
+    <delete id="deleteResume">
+        DELETE FROM resume
+        WHERE rno = #{rno}
+          AND mno = #{mno}
+    </delete>
+
+    <delete id="deleteSkills" parameterType="int">
+        DELETE FROM resume_skill
+        WHERE rno = #{rno}
+    </delete>
+
+    <insert id="insertSkills">
+        INSERT INTO resume_skill (rsno, rsname, rno)
+        SELECT RESUME_SKILL_SEQ.NEXTVAL, t.rsname, #{rno}
+        FROM (
+            <foreach collection="skills" item="s" separator=" UNION ALL ">
+                SELECT #{s} AS rsname FROM dual
+            </foreach>
+        ) t
+    </insert>
+
+    <select id="findSkillNames" resultType="string">
+	    SELECT rsname
+	    FROM resume_skill
+	    WHERE rno = #{rno}
+	</select>
+	
+    <delete id="deleteEducation" parameterType="int">
+        DELETE FROM resume_education
+        WHERE rno = #{rno}
+    </delete>
+
+    <insert id="insertEducation">
+	  INSERT INTO resume_education (reno, reschoolname, remajor, redegree, restartdate, reenddate, rno)
+	  SELECT RESUME_EDUCATION_SEQ.NEXTVAL, a.* FROM (
+	    <foreach collection="eduList" item="e" separator=" UNION ALL ">
+	      SELECT
+	        #{e.reschoolname, jdbcType=VARCHAR},
+	        #{e.remajor, jdbcType=VARCHAR},
+	        #{e.redegree, jdbcType=VARCHAR},
+	        CASE
+	          WHEN #{e.restartdate, jdbcType=VARCHAR} IS NULL OR #{e.restartdate, jdbcType=VARCHAR} = '' THEN NULL
+	          ELSE TO_DATE(#{e.restartdate, jdbcType=VARCHAR} || '-01', 'YYYY-MM-DD')
+	        END,
+	        CASE
+	          WHEN #{e.reenddate, jdbcType=VARCHAR} IS NULL OR #{e.reenddate, jdbcType=VARCHAR} = '' THEN NULL
+	          ELSE TO_DATE(#{e.reenddate, jdbcType=VARCHAR} || '-01', 'YYYY-MM-DD')
+	        END,
+	        #{rno}
+	      FROM dual
+	    </foreach>
+	  ) a
+	</insert>
+
+
+    <select id="findEducationByRno" resultType="com.idoit.dto.ResumeEducationDTO">
+	  SELECT
+	    reno,
+	    reschoolname,
+	    remajor,
+	    redegree,
+	    TO_CHAR(restartdate, 'YYYY-MM') AS restartdate,
+	    TO_CHAR(reenddate,   'YYYY-MM') AS reenddate,
+	    rno
+	  FROM resume_education
+	  WHERE rno = #{rno}
+	  ORDER BY restartdate DESC
+	</select>
+
+
+    <delete id="deleteCareer" parameterType="int">
+        DELETE FROM resume_career
+        WHERE rno = #{rno}
+    </delete>
+
+    <insert id="insertCareer">
+	  INSERT INTO resume_career (rcno, rccompany, rcposition, rcstartdate, rcenddate, rccurrent, rcdescription, rno)
+	  SELECT RESUME_CAREER_SEQ.NEXTVAL, a.* FROM (
+	    <foreach collection="careerList" item="c" separator=" UNION ALL ">
+	      SELECT
+	        #{c.rccompany, jdbcType=VARCHAR},
+	        #{c.rcposition, jdbcType=VARCHAR},
+	        CASE
+	          WHEN #{c.rcstartdate, jdbcType=VARCHAR} IS NULL OR #{c.rcstartdate, jdbcType=VARCHAR} = '' THEN NULL
+	          ELSE TO_DATE(#{c.rcstartdate, jdbcType=VARCHAR} || '-01', 'YYYY-MM-DD')
+	        END,
+	        CASE
+	          WHEN #{c.rcenddate, jdbcType=VARCHAR} IS NULL OR #{c.rcenddate, jdbcType=VARCHAR} = '' THEN NULL
+	          ELSE TO_DATE(#{c.rcenddate, jdbcType=VARCHAR} || '-01', 'YYYY-MM-DD')
+	        END,
+	        #{c.rccurrent, jdbcType=VARCHAR},
+	        #{c.rcdescription, jdbcType=VARCHAR},
+	        #{rno}
+	      FROM dual
+	    </foreach>
+	  ) a
+	</insert>
+
+
+    <select id="findCareerByRno" resultType="com.idoit.dto.ResumeCareerDTO">
+	  SELECT
+	    rcno,
+	    rccompany,
+	    rcposition,
+	    TO_CHAR(rcstartdate, 'YYYY-MM') AS rcstartdate,
+	    TO_CHAR(rcenddate,   'YYYY-MM') AS rcenddate,
+	    rccurrent,
+	    rcdescription,
+	    rno
+	  FROM resume_career
+	  WHERE rno = #{rno}
+	  ORDER BY rcstartdate DESC
+	</select>
+
+	
+    <delete id="deleteProject">
+        DELETE FROM resume_project WHERE rno = #{rno}
+    </delete>
+
+    <insert id="insertProject">
+	  INSERT INTO resume_project (rpno, rpname, rpstartdate, rpenddate, rpsummary, rpcontent, rplink, rno)
+	  SELECT RESUME_PROJECT_SEQ.NEXTVAL, a.* FROM (
+	    <foreach collection="projectList" item="item" separator=" UNION ALL ">
+	      SELECT
+	        #{item.rpname, jdbcType=VARCHAR},
+	        CASE
+	          WHEN #{item.rpstartdate, jdbcType=VARCHAR} IS NULL OR #{item.rpstartdate, jdbcType=VARCHAR} = '' THEN NULL
+	          ELSE TO_DATE(#{item.rpstartdate, jdbcType=VARCHAR} || '-01', 'YYYY-MM-DD')
+	        END,
+	        CASE
+	          WHEN #{item.rpenddate, jdbcType=VARCHAR} IS NULL OR #{item.rpenddate, jdbcType=VARCHAR} = '' THEN NULL
+	          ELSE TO_DATE(#{item.rpenddate, jdbcType=VARCHAR} || '-01', 'YYYY-MM-DD')
+	        END,
+	        #{item.rpsummary, jdbcType=VARCHAR},
+	        #{item.rpcontent, jdbcType=VARCHAR},
+	        #{item.rplink, jdbcType=VARCHAR},
+	        #{rno}
+	      FROM DUAL
+	    </foreach>
+	  ) a
+	</insert>
+
+    <select id="findProjectByRno" resultType="com.idoit.dto.ResumeProjectDTO">
+	  SELECT
+	    rpno,
+	    rpname,
+	    TO_CHAR(rpstartdate, 'YYYY-MM') AS rpstartdate,
+	    TO_CHAR(rpenddate,   'YYYY-MM') AS rpenddate,
+	    rpsummary,
+	    rpcontent,
+	    rplink,
+	    rno
+	  FROM resume_project
+	  WHERE rno = #{rno}
+	  ORDER BY rpstartdate DESC
+	</select>
+
+	
+    <delete id="deleteOther">
+        DELETE FROM resume_other WHERE rno = #{rno}
+    </delete>
+
+    <insert id="insertOther">
+        INSERT INTO resume_other (rono, rotype, rotitle, roorg, rodate, rno)
+        SELECT RESUME_OTHER_SEQ.NEXTVAL, a.* FROM (
+            <foreach collection="otherList" item="item" separator=" UNION ALL ">
+                SELECT 
+                    #{item.rotype, jdbcType=VARCHAR}, 
+                    #{item.rotitle, jdbcType=VARCHAR}, 
+                    #{item.roorg, jdbcType=VARCHAR}, 
+                    #{item.rodate, jdbcType=DATE}, 
+                    #{rno} 
+                FROM DUAL
+            </foreach>
+        ) a
+    </insert>
+
+    <select id="findOtherByRno" resultType="com.idoit.dto.ResumeOtherDTO">
+        SELECT * FROM resume_other WHERE rno = #{rno} ORDER BY rodate DESC
+    </select>
+	
+    <delete id="deleteTraining">
+        DELETE FROM resume_training WHERE rno = #{rno}
+    </delete>
+
+    <insert id="insertTraining">
+	  INSERT INTO resume_training (rtno, rtorg, rtstartdate, rtenddate, rtcontent, rno)
+	  SELECT RESUME_TRAINING_SEQ.NEXTVAL, a.* FROM (
+	    <foreach collection="trainingList" item="item" separator=" UNION ALL ">
+	      SELECT
+	        #{item.rtorg, jdbcType=VARCHAR},
+	        CASE
+	          WHEN #{item.rtstartdate, jdbcType=VARCHAR} IS NULL OR #{item.rtstartdate, jdbcType=VARCHAR} = '' THEN NULL
+	          ELSE TO_DATE(#{item.rtstartdate, jdbcType=VARCHAR} || '-01', 'YYYY-MM-DD')
+	        END,
+	        CASE
+	          WHEN #{item.rtenddate, jdbcType=VARCHAR} IS NULL OR #{item.rtenddate, jdbcType=VARCHAR} = '' THEN NULL
+	          ELSE TO_DATE(#{item.rtenddate, jdbcType=VARCHAR} || '-01', 'YYYY-MM-DD')
+	        END,
+	        #{item.rtcontent, jdbcType=VARCHAR},
+	        #{rno}
+	      FROM DUAL
+	    </foreach>
+	  ) a
+	</insert>
+
+
+    <select id="findTrainingByRno" resultType="com.idoit.dto.ResumeTrainingDTO">
+	  SELECT
+	    rtno,
+	    rtorg,
+	    TO_CHAR(rtstartdate, 'YYYY-MM') AS rtstartdate,
+	    TO_CHAR(rtenddate,   'YYYY-MM') AS rtenddate,
+	    rtcontent,
+	    rno
+	  FROM resume_training
+	  WHERE rno = #{rno}
+	  ORDER BY rtstartdate DESC
+	</select>
+	
+	<delete id="deleteApplicationsByResume" parameterType="int">
+	    DELETE FROM application
+	    WHERE rno = #{rno}
+	</delete>
+	
+	<select id="findPublicForCompany" parameterType="int" resultType="com.idoit.dto.ResumeDTO">
+	  SELECT *
+	  FROM resume
+	  WHERE rno = #{rno}
+	</select>
+	
+</mapper>

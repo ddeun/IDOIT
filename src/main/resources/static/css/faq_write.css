@@ -1,0 +1,167 @@
+@charset "UTF-8";
+/* =========================
+   FAQ Write / Update (FINAL)
+========================= */
+
+/* ===== 페이지 배경 ===== */
+body {
+  background: #F5F7FA;
+  color: #1A1A1A;
+}
+
+/* ===== 페이지 제목 ===== */
+.faq-title {
+  text-align: center;
+  font-size: 22px;
+  font-weight: 700;
+  color: #ffffff;
+  margin: 40px 0 30px;
+}
+
+/* ===== 카드 박스 ===== */
+.faq-box {
+  width: 900px;
+  margin: 0 auto 60px;
+  background: #FFFFFF;
+  border: 1px solid #E5E7EB;
+  border-radius: 12px;
+}
+
+/* ===== 폼 테이블 ===== */
+.faq-form-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0 18px;
+  padding: 36px;
+
+}
+
+/* 라벨(th) */
+.faq-form-table th {
+  width: 140px;
+  padding: 10px 14px;
+  font-size: 14px;
+  font-weight: 600;
+  text-align: left;
+  vertical-align: top;
+  background: #F9FAFB;
+  border-radius: 6px;
+}
+
+/* 입력 영역(td) */
+.faq-form-table td {
+  padding: 0 10px;
+}
+
+/* ===== 입력 필드 ===== */
+.faq-form-table select,
+.faq-form-table input[type="text"],
+.faq-form-table textarea {
+  width: 100%;
+  padding: 10px 12px;
+  font-size: 14px;
+  border: 1px solid #D1D5DB;
+  border-radius: 6px;
+  box-sizing: border-box;
+}
+
+/* textarea 비율 고정 (write / update 동일) */
+.faq-form-table textarea {
+  min-height: 120px;
+  height: 160px;
+  resize: vertical;
+}
+
+/* focus */
+.faq-form-table select:focus,
+.faq-form-table input:focus,
+.faq-form-table textarea:focus {
+  outline: none;
+  border-color: #0F2E55;
+}
+
+/* =========================
+   하단 버튼 영역
+========================= */
+.faq-form-footer {
+  padding: 24px 36px;
+  border-top: 1px solid #E5E7EB;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 10px;
+}
+
+/* 버튼 공통 */
+.faq-form-footer button {
+  min-width: 90px;
+  height: 36px;
+  padding: 0 18px;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  font-size: 14px;
+  font-weight: 600;
+  border-radius: 6px;
+  line-height: 1;
+  cursor: pointer;
+  box-sizing: border-box;
+}
+
+/* ===== 등록 / 수정 (주황) ===== */
+.btn-primary {
+  background: #ff7a00;
+  color: #ffffff;
+  border: 1px solid #ff7a00;
+}
+
+.btn-primary:hover {
+  background: #e66f00;
+}
+
+/* ===== 취소 (하얀 버튼) ===== */
+.btn-outline {
+  background: #ffffff;
+  color: #0F2E55;
+  border: 1px solid #0F2E55;
+}
+
+.btn-outline:hover {
+  background: #F5F7FA;
+}
+
+/* =========================
+   모바일
+========================= */
+@media (max-width: 768px) {
+  .faq-box {
+    width: calc(100% - 24px);
+  }
+
+  .faq-form-footer {
+    justify-content: center;
+  }
+}
+
+/* =========================
+   FAQ Write / Update
+   카드 뒤 네이비 배경
+========================= */
+body {
+  position: relative;
+}
+
+body::before {
+  content: "";
+  position: absolute;
+  top: 0;                /* 헤더 아래부터 */
+  left: 50%;
+  transform: translateX(-50%);
+
+  width: 100vw;
+  height: 240px;         /* FAQ write/update에 맞춘 높이 */
+  background: #0F2E55;
+  z-index: -1;
+}

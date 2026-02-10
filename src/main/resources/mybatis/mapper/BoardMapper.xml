@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.idoit.dao.BoardDAO">
+
+    <!-- =========================
+         카테고리별 게시글 목록
+         ========================= -->
+    <select id="selectBoardListByType"
+            parameterType="string"
+            resultType="com.idoit.dto.BoardDTO">
+        SELECT
+            b.bno,
+            b.btype,
+            b.bwriter,
+            b.btitle,
+            b.bview,
+            b.bstatus,
+            b.bcreate,
+            b.mno,
+
+            m.mname  AS realWriterName,
+            m.memail AS realWriterEmail
+
+        FROM board b
+        LEFT JOIN member m ON b.mno = m.mno
+        WHERE b.btype = #{btype}
+        ORDER BY b.bno DESC
+    </select>
+
+    <!-- =========================
+         게시글 전체 목록
+         ========================= -->
+    <select id="selectBoardList"
+            resultType="com.idoit.dto.BoardDTO">
+        SELECT
+            b.bno,
+            b.btype,
+            b.bwriter,
+            b.btitle,
+            b.bview,
+            b.bstatus,
+            b.bcreate,
+            b.mno,
+
+            m.mname  AS realWriterName,
+            m.memail AS realWriterEmail
+
+        FROM board b
+        LEFT JOIN member m ON b.mno = m.mno
+        ORDER BY b.bno DESC
+    </select>
+
+    <!-- =========================
+         게시글 상세
+         ========================= -->
+    <select id="selectBoard"
+            parameterType="int"
+            resultType="com.idoit.dto.BoardDTO">
+        SELECT
+            b.bno,
+            b.btype,
+            b.bwriter,
+            b.btitle,
+            b.bcontent,
+            b.bimage,
+            b.bview,
+            b.bstatus,
+            b.bcreate,
+            b.bupdate,
+            b.mno,
+
+            m.mname  AS realWriterName,
+            m.memail AS realWriterEmail
+
+        FROM board b
+        LEFT JOIN member m ON b.mno = m.mno
+        WHERE b.bno = #{bno}
+    </select>
+
+    <!-- =========================
+         조회수 증가
+         ========================= -->
+    <update id="updateViewCount" parameterType="int">
+        UPDATE board
+        SET bview = NVL(bview, 0) + 1
+        WHERE bno = #{bno}
+    </update>
+
+    <!-- =========================
+         게시글 등록
+         ========================= -->
+    <insert id="insertBoard" parameterType="com.idoit.dto.BoardDTO">
+	  <selectKey keyProperty="bno" resultType="int" order="BEFORE">
+	    SELECT board_seq.NEXTVAL FROM dual
+	  </selectKey>
+	
+	  INSERT INTO board (
+	    bno, btype, btitle, bwriter, bcontent, bimage,
+	    bview, bstatus, bcreate, bupdate, mno
+	  ) VALUES (
+	    #{bno},
+	    #{btype},
+	    #{btitle},
+	    #{bwriter},
+	    #{bcontent, jdbcType=CLOB},
+	    #{bimage, jdbcType=CLOB},
+	    0,
+	    'NORMAL',
+	    SYSDATE,
+	    SYSDATE,
+	    #{mno}
+	  )
+	</insert>
+
+    <!-- =========================
+         게시글 수정
+         ========================= -->
+    <update id="updateBoard"
+            parameterType="com.idoit.dto.BoardDTO">
+        UPDATE board
+        SET
+            btype    = #{btype},
+            btitle   = #{btitle},
+            bcontent = #{bcontent, jdbcType=CLOB},
+            bimage   = #{bimage, jdbcType=CLOB},
+            bupdate  = SYSDATE
+        WHERE bno = #{bno}
+    </update>
+
+    <!-- =========================
+         게시글 삭제
+         ========================= -->
+    <delete id="deleteBoard"
+            parameterType="int">
+        DELETE FROM board
+        WHERE bno = #{bno}
+    </delete>
+    
+    <select id="searchBoardList" resultType="com.idoit.dto.BoardDTO">
+    SELECT *
+    FROM board
+    WHERE 1 = 1
+
+    <if test="btype != null and btype != ''">
+        AND btype = #{btype}
+    </if>
+
+    <if test="searchType == 'title'">
+        AND btitle LIKE '%' || #{keyword} || '%'
+    </if>
+
+    <if test="searchType == 'writer'">
+        AND bwriter LIKE '%' || #{keyword} || '%'
+    </if>
+
+    <if test="searchType == 'content'">
+        AND bcontent LIKE '%' || #{keyword} || '%'
+    </if>
+
+    ORDER BY bno DESC
+</select>
+
+</mapper>

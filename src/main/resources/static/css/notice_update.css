@@ -1,0 +1,147 @@
+@charset "UTF-8";
+
+/* =========================
+   Notice Write Page
+========================= */
+
+body {
+  background: #F5F7FA;
+  color: #1A1A1A;
+  line-height: 1.7;
+}
+
+/* 제목 */
+h2 {
+  width: 800px;
+  margin: 40px auto 20px;
+  color: #0F2E55;
+  font-size: 22px;
+  font-weight: 700;
+}
+
+/* 폼 래퍼 */
+form {
+  width: 800px;
+  margin: 0 auto 60px;
+  background: #FFFFFF;
+  border: 1px solid #E5E7EB;
+  border-radius: 14px;
+  padding: 32px;
+}
+
+/* 테이블 */
+form table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+}
+
+form th {
+  width: 120px;
+  background: #F9FAFB;
+  color: #0F2E55;
+  font-weight: 600;
+  text-align: left;
+  padding: 14px;
+  border-bottom: 1px solid #E5E7EB;
+}
+
+form td {
+  padding: 14px;
+  border-bottom: 1px solid #E5E7EB;
+}
+
+form tr:last-child th,
+form tr:last-child td {
+  border-bottom: none;
+}
+
+/* 입력 요소 */
+input[type="text"],
+select {
+  width: 100%;
+  padding: 10px 12px;
+  font-size: 14px;
+  border: 1px solid #D1D5DB;
+  border-radius: 6px;
+  box-sizing: border-box;
+}
+
+input[type="text"]:focus,
+select:focus {
+  outline: none;
+  border-color: #0F2E55;
+}
+
+/* Summernote 영역 보정 */
+.note-editor {
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+/* =========================
+   하단 버튼 영역
+========================= */
+form > button {
+  margin-top: 24px;
+}
+
+/* 공통 버튼 */
+button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 8px 16px;
+  font-size: 14px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+/* 등록 (주황) */
+button[type="submit"] {
+  background: #ff7a00;
+  color: #FFFFFF;
+  border: 1px solid #ff7a00;
+}
+
+button[type="submit"]:hover {
+  background: #e86f00;
+  border-color: #e86f00;
+}
+
+/* 취소 (파란 outline) */
+button[type="button"] {
+  background: #FFFFFF;
+  color: #0F2E55;
+  border: 1px solid #0F2E55;
+  margin-left: 8px;
+}
+
+button[type="button"]:hover {
+  background: #F5F7FA;
+}
+
+/* =========================
+   반응형
+========================= */
+@media (max-width: 768px) {
+  h2,
+  form {
+    width: calc(100% - 24px);
+  }
+
+  form {
+    padding: 24px;
+  }
+}
+
+/* Summernote 높이 보정 */
+.note-editor.note-frame {
+  border-radius: 8px;
+  margin: 0;
+}
+
+.note-editable {
+  min-height: 300px;
+}

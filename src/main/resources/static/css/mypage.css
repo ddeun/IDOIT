@@ -1,0 +1,131 @@
+@charset "UTF-8";
+
+/* 전체 배경 */
+body {
+  background: #F5F7FA;
+  color: #1F2937;
+  font-family: 'Pretendard', sans-serif;
+}
+
+/* 전체 래퍼 */
+.mypage-wrap {
+  width: 800px;
+  margin: 60px auto;
+}
+
+/* 제목 */
+.mypage-title {
+  text-align: center;
+  margin-bottom: 32px;
+  font-size: 26px;
+  font-weight: 700;
+  color: #ffffff;
+}
+
+/* 카드 */
+.mypage-card {
+  background: #FFFFFF;
+  border: 1px solid #E5E7EB;
+  border-radius: 14px;
+  padding: 32px;
+}
+
+/* 정보 한 줄 */
+.info-row {
+  display: flex;
+  padding: 14px 0;
+  border-bottom: 1px solid #E5E7EB;
+}
+
+.info-row:last-child {
+  border-bottom: none;
+}
+
+/* 라벨 */
+.label {
+  width: 140px;
+  font-weight: 600;
+  color: #374151;
+}
+
+/* 값 */
+.value {
+  flex: 1;
+  color: #111827;
+}
+
+/* 버튼 영역 */
+.mypage-actions {
+  margin-top: 32px;
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+}
+
+.mypage-actions form {
+  margin: 0;
+}
+
+/* 버튼 공통 – 상태 변화 전부 차단 */
+.mypage-actions button,
+.mypage-actions button:hover,
+.mypage-actions button:focus,
+.mypage-actions button:active {
+  min-width: 140px;
+  height: 42px;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 600;
+
+  cursor: pointer;
+  outline: none;
+  box-shadow: none;
+}
+
+/* =========================
+   회원정보 수정 (공통 주황 고정)
+========================= */
+.btn-outline,
+.btn-outline:hover,
+.btn-outline:focus,
+.btn-outline:active {
+  background: #FF7A00;
+  color: #FFFFFF;
+  border: 1px solid #FF7A00;
+}
+
+/* =========================
+   회원 탈퇴 (무난한 네이비 아웃라인)
+========================= */
+.btn-danger {
+  background: #FFFFFF;
+  color: #0F2E55;
+  border: 1px solid #0F2E55;
+}
+
+/* =========================
+   마이페이지 카드 뒤 네이비 배경
+========================= */
+.mypage-wrap {
+  position: relative;
+}
+
+.mypage-wrap::before {
+  content: "";
+  position: absolute;
+  top: -120px;              /* 헤더 아래 잘린 지점 조절 */
+  left: 50%;
+  transform: translateX(-50%);
+
+  width: 100vw;
+  height: 260px;            /* 네이비 배경 높이 */
+
+  background: #0F2E55;
+  z-index: -1;
+}
+

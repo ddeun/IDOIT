@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.idoit.dao.ApplicationDAO">
+
+  <!-- ✅ 중복 지원 체크 -->
+  <select id="exists" resultType="int">
+    SELECT COUNT(*)
+    FROM application
+    WHERE mno = #{mno}
+      AND jno = #{jno}
+  </select>
+
+  <!-- ✅ 지원하기 (rno 없이) -->
+  <insert id="insert">
+    INSERT INTO application (ano, astatus, adate, aupdate, jno, rno, mno)
+    VALUES (
+      application_seq.NEXTVAL,
+      '지원완료',
+      SYSDATE,
+      NULL,
+      #{jno},
+      NULL,
+      #{mno}
+    )
+  </insert>
+
+  <!-- ✅ 지원하기 (이력서 선택 포함) -->
+  <insert id="insertWithResume">
+    INSERT INTO application (ano, astatus, adate, aupdate, jno, rno, mno)
+    VALUES (
+      application_seq.NEXTVAL,
+      '지원완료',
+      SYSDATE,
+      NULL,
+      #{jno},
+      #{rno},
+      #{mno}
+    )
+  </insert>
+
+  <!-- ✅ 내 지원내역 (공고제목 + 회사명) -->
+  <select id="findByMno" resultType="com.idoit.dto.ApplicationDTO">
+    SELECT
+      a.ano, a.astatus, a.adate, a.aupdate, a.jno, a.rno, a.mno,
+      j.jtitle AS jtitle,
+      c.cname  AS cname
+    FROM application a
+    JOIN job_posting j ON j.jno = a.jno
+    LEFT JOIN company c ON c.cno = j.cno
+    WHERE a.mno = #{mno}
+    ORDER BY a.ano DESC
+  </select>
+
+  <!-- ✅ 기업용: 공고별 지원자 목록 (내 회사 공고만) -->
+  <select id="findByJnoOwned" resultType="com.idoit.dto.ApplicationDTO">
+    SELECT
+      a.ano, a.astatus, a.adate, a.aupdate, a.jno, a.rno, a.mno,
+      j.jtitle AS jtitle,
+      c.cname  AS cname,
+      m.mname  AS mname
+    FROM application a
+    JOIN job_posting j ON j.jno = a.jno
+    JOIN company c ON c.cno = j.cno
+    JOIN member m ON m.mno = a.mno
+    WHERE a.jno = #{jno}
+      AND c.mno = #{mno}
+    ORDER BY a.ano DESC
+  </select>
+
+  <!-- ✅ 지원 상태 변경 -->
+  <update id="updateStatus">
+    UPDATE application
+       SET astatus = #{astatus},
+           aupdate = SYSDATE
+     WHERE ano = #{ano}
+  </update>
+
+  <!-- ✅ 지원 취소 (본인만) -->
+  <delete id="delete">
+    DELETE FROM application
+    WHERE ano = #{ano}
+      AND mno = #{mno}
+  </delete>
+
+</mapper>

@@ -1,0 +1,263 @@
+@charset "UTF-8";
+
+/* =========================
+   공통
+========================= */
+body {
+  background: #F5F7FA;
+  color: #1A1A1A;
+  line-height: 1.65;
+  position: relative;
+}
+
+/* =========================
+  제목 (게시글 상세)
+========================= */
+.hero-title {
+  color: #0F2E55;
+  font-weight: 700;
+  margin: 36px 0 18px;
+  text-align: center;
+  font-size: 30px;
+  position: relative;
+  z-index: 1;
+}
+
+/* =========================
+   댓글 제목
+========================= */
+.comment-title {
+  color: #0F2E55;
+  font-weight: 700;
+  margin: 36px 0 18px;
+  text-align: center;
+  font-size: 22px;
+}
+
+/* =========================
+   게시글 상세 카드
+========================= */
+table {
+  width: min(900px, 100%);
+  margin: 0 auto;
+  background: #FFFFFF;
+  border: 1px solid #E5E7EB;
+  border-radius: 14px;
+  border-collapse: separate;
+  border-spacing: 0;
+  overflow: hidden;
+  position: relative;
+  z-index: 1;
+}
+
+/* 라벨 */
+table[width="900"] th {
+  width: 120px;
+  background: #F9FAFB;
+  color: #0F2E55;
+  font-weight: 600;
+  text-align: left;
+  padding: 14px 16px;
+  border-bottom: 1px solid #E5E7EB;
+}
+
+/* 값 */
+table[width="900"] td {
+  padding: 14px 16px;
+  border-bottom: 1px solid #E5E7EB;
+  font-size: 15px;
+}
+
+table[width="900"] tr:last-child th,
+table[width="900"] tr:last-child td {
+  border-bottom: none;
+}
+
+/* 본문 이미지 */
+table[width="900"] img {
+  max-width: 100%;
+  max-height: 520px;
+  margin: 18px auto;
+  display: block;
+  border-radius: 10px;
+}
+
+/* =========================
+   HR 제거
+========================= */
+hr {
+  display: none;
+}
+
+/* =========================
+   댓글 영역
+========================= */
+.comment-wrap{
+  width: min(900px, 100%);
+  margin: 28px auto 0;
+  padding: 0;
+  background: transparent;
+  border: none;
+}
+
+.comment-wrap .comment-item{
+  width: 100%;
+  box-sizing: border-box;
+  background: #FFFFFF;
+  border: 1px solid #ECEFF3;
+  border-radius: 10px;
+  padding: 10px 12px;
+  margin-bottom: 10px;
+  font-size: 13px;
+  line-height: 1.45;
+  color: #0F2E55;
+}
+
+/* 댓글 헤더 */
+.comment-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2px;
+}
+
+.comment-writer {
+  font-weight: 500;
+  color: #0F2E55;
+}
+
+.admin-info {
+  font-size: 11px;
+  color: #B91C1C;
+  background: #FEF2F2;
+  padding: 1px 5px;
+  border-radius: 4px;
+  margin-left: 6px;
+}
+
+.comment-date {
+  font-size: 11px;
+  color: #9CA3AF;
+}
+
+/* 댓글 본문 */
+.comment-body {
+  margin-top: 4px;
+  line-height: 1.45;
+  color: #0F2E55;
+}
+
+/* =========================
+   댓글 액션
+========================= */
+.comment-actions{
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 6px;
+  margin-top: 6px;
+}
+
+.comment-actions form{
+  display: inline-flex;
+  margin: 0;
+}
+
+.comment-actions button{
+  padding: 3px 8px;
+  font-size: 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  background: #FFFFFF;
+  border: 1px solid #E5E7EB;
+  color: #0F2E55;
+}
+
+/* =========================
+   댓글 수정 카드
+========================= */
+div[id^="edit-"] form {
+  background: #F9FAFB;
+  border: 1px solid #E5E7EB;
+  border-radius: 10px;
+  padding: 10px;
+  margin-bottom: 10px;
+}
+
+div[id^="edit-"] textarea {
+  width: 100%;
+  border: 1px solid #D1D5DB;
+  border-radius: 8px;
+  padding: 8px;
+  font-size: 13px;
+  resize: vertical;
+}
+
+/* =========================
+   댓글 작성 카드
+========================= */
+form[action="/board_comment/write"] {
+  width: min(900px, 100%);
+  background: #F9FAFB;
+  border: 1px solid #E5E7EB;
+  border-radius: 10px;
+  padding: 10px;
+  margin: 16px auto 0;
+}
+
+form[action="/board_comment/write"] textarea {
+  width: 100%;
+  min-height: 70px;
+  border: 1px solid #D1D5DB;
+  border-radius: 8px;
+  padding: 8px;
+  font-size: 13px;
+}
+
+form[action="/board_comment/write"] label {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 8px;
+  font-size: 12px;
+}
+
+/* =========================
+   버튼 공통
+========================= */
+button {
+  padding: 5px 10px;
+  border-radius: 6px;
+  font-size: 12px;
+  cursor: pointer;
+}
+
+button[type="submit"] {
+  background: #0F2E55;
+  color: #FFFFFF;
+  border: none;
+}
+
+.board-footer {
+  width: min(900px, 100%);
+  margin: 30px auto 0;   /* 테이블과 같은 기준 */
+  padding-top: 20px;
+
+  display: flex;
+  justify-content: space-between; /* 좌 / 우 */
+  align-items: center;
+
+  border-top: 1px solid #E5E7EB;
+}
+
+.footer-center {
+  grid-column: 1;
+  justify-self: start;
+}
+
+.footer-right {
+  grid-column: 3;
+  justify-self: end;
+  display: flex;
+  gap: 10px;
+}

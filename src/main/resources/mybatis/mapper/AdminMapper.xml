@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.idoit.dao.AdminDAO">
+
+  <select id="findPersonalMembers" resultType="com.idoit.dto.MemberDTO">
+  SELECT mno, memail, mname, mauth, mstatus, mcreate
+  FROM member
+  WHERE mtype = 'PERSONAL'
+    AND mstatus &lt;&gt; 'WITHDRAWN'
+  ORDER BY mno DESC
+  </select>
+
+  
+  <update id="updateMemberStatus">
+	  UPDATE member
+	  SET mstatus = #{mstatus}
+	  WHERE mno = #{mno}
+	    AND mtype = 'PERSONAL'
+  </update>
+
+	<update id="withdrawMember">
+	  UPDATE member
+	  SET mstatus = 'WITHDRAWN'
+	  WHERE mno = #{mno}
+	</update>
+	  
+</mapper>

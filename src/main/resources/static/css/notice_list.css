@@ -1,0 +1,129 @@
+@charset "UTF-8";
+
+/* ===== 컬러 변수 ===== */
+:root {
+  --base-color: #0F2E55;
+  --bg-white: #FFFFFF;
+  --bg-light: #F5F7FA;
+  --text-main: #1A1A1A;
+  --text-sub: #6B7280;
+  --border-light: #E5E7EB;
+}
+
+/* ===== 페이지 배경 ===== */
+body {
+  background: var(--bg-light);
+  color: var(--text-main);
+}
+
+/* ===== 전체 래퍼 ===== */
+.board-wrap {
+  padding: 50px 0;
+}
+
+/* ===== 카드 컨테이너 (통합 게시판 크기) ===== */
+.board-container {
+  width: 1000px;                 /* 통합 게시판과 동일 */
+  margin: 0 auto;
+  background: var(--bg-white);
+  border: 1px solid var(--border-light);
+  border-radius: 12px;
+}
+
+/* ===== 헤더 ===== */
+.board-header {
+  padding: 40px 0 26px;          /* 상단 여백 확대 */
+}
+
+.board-title {
+  text-align: center;
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--base-color);
+}
+
+/* ===== 테이블 ===== */
+.board-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+/* ===== 테이블 헤더 ===== */
+.board-table thead {
+  background: var(--base-color);
+}
+
+.board-table th {
+  padding: 10px 14px;            /* 네이비 바 두께 통일 */
+  font-size: 14px;
+  font-weight: 600;
+  color: #ffffff;
+  text-align: center;
+}
+
+/* ===== 테이블 바디 ===== */
+.board-table td {
+  padding: 12px 14px;            /* 행 높이 통일 */
+  font-size: 14px;
+  color: var(--text-main);
+  border-bottom: 1px solid var(--border-light);
+}
+
+/* ===== 제목 컬럼 ===== */
+.board-table td.title {
+  text-align: left;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+/* 제목 링크 */
+.board-table td a {
+  color: var(--text-main);
+  text-decoration: none;
+}
+
+.board-table td a:hover {
+  text-decoration: underline;
+}
+
+/* ===== 작성일 컬럼 (바디만 회색) ===== */
+.board-table td:last-child {
+  width: 180px;                  /* 통합 게시판 폭 */
+  text-align: center;
+  font-size: 13px;
+  color: var(--text-sub);
+}
+
+/* ===== hover ===== */
+.board-table tbody tr:hover {
+  background: #F9FAFB;
+}
+
+/* =========================
+   board 카드 뒤 네이비 히어로 배경
+========================= */
+.board-wrap {
+  position: relative;
+}
+
+.board-wrap::before {
+  content: "";
+  position: absolute;
+  top: 0;                       /* 헤더 아래부터 */
+  left: 50%;
+  transform: translateX(-50%);
+
+  width: 100vw;
+  height: 240px;                /* 네이비 배경 높이 */
+
+  background: var(--base-color);
+  z-index: 0;
+}
+
+/* 카드가 네이비 위로 올라오게 */
+.board-container {
+  position: relative;
+  z-index: 1;
+}
+

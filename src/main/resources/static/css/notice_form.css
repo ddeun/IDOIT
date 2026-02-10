@@ -1,0 +1,179 @@
+@charset "UTF-8";
+
+/* =========================
+   Notice Write / Update Form
+========================= */
+
+body {
+  background: #F5F7FA;
+  color: #1A1A1A;
+  line-height: 1.7;
+}
+
+/* =========================
+   제목
+========================= */
+h2.notice-title {
+  width: 800px;
+  margin: 40px auto 30px;
+  text-align: center;
+  font-size: 30px;
+  font-weight: 700;
+  color: #ffffff;
+}
+
+/* =========================
+   폼 래퍼
+========================= */
+form.notice-form {
+  width: 800px;
+  margin: 0 auto 60px;
+  background: #FFFFFF;
+  border: 1px solid #E5E7EB;
+  border-radius: 14px;
+  padding: 32px;
+}
+
+/* =========================
+   테이블 (카드형)
+========================= */
+.notice-form table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0 12px;
+}
+
+.notice-form th {
+  width: 120px;
+  background: #F9FAFB;
+  color: #0F2E55;
+  font-weight: 600;
+  text-align: left;
+  padding: 12px 14px;
+  border-radius: 8px 0 0 8px;
+  vertical-align: top;
+}
+
+.notice-form td {
+  padding: 12px 14px;
+  background: #FFFFFF;
+  border-radius: 0 8px 8px 0;
+}
+
+/* =========================
+   입력 요소
+========================= */
+.notice-form input[type="text"],
+.notice-form select {
+  width: 100%;
+  padding: 10px 12px;
+  font-size: 14px;
+  border: 1px solid #D1D5DB;
+  border-radius: 6px;
+  box-sizing: border-box;
+}
+
+.notice-form input[type="text"]:focus,
+.notice-form select:focus {
+  outline: none;
+  border-color: #0F2E55;
+}
+
+/* =========================
+   Summernote
+========================= */
+.note-editor {
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.note-editor.note-frame {
+  margin: 0;
+}
+
+.note-editable {
+  min-height: 300px;
+}
+
+/* =========================
+   버튼 영역
+========================= */
+.notice-btn-area {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 32px;
+}
+
+/* 공통 버튼 */
+.notice-btn-area button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px 18px;
+  font-size: 14px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+/* 등록 / 수정 */
+.notice-btn-area button[type="submit"] {
+  background: #ff7a00;
+  color: #FFFFFF;
+  border: 1px solid #ff7a00;
+}
+
+.notice-btn-area button[type="submit"]:hover {
+  background: #e86f00;
+  border-color: #e86f00;
+}
+
+/* 취소 */
+.notice-btn-area button[type="button"] {
+  background: #FFFFFF;
+  color: #0F2E55;
+  border: 1px solid #0F2E55;
+}
+
+.notice-btn-area button[type="button"]:hover {
+  background: #F5F7FA;
+}
+
+/* =========================
+   반응형
+========================= */
+@media (max-width: 768px) {
+  h2.notice-title,
+  form.notice-form {
+    width: calc(100% - 24px);
+  }
+
+  form.notice-form {
+    padding: 24px;
+  }
+
+  .notice-form th {
+    width: 90px;
+  }
+}
+
+/* =========================
+   Notice Write / Update
+   카드 뒤 네이비 배경
+========================= */
+body {
+  position: relative;
+}
+
+body::before {
+  content: "";
+  position: absolute;
+  top: 0;                /* 헤더 아래부터 */
+  left: 50%;
+  transform: translateX(-50%);
+
+  width: 100vw;
+  height: 260px;         /* write / update 높이에 맞춘 네이비 영역 */
+  background: #0F2E55;
+  z-index: -1;
+}

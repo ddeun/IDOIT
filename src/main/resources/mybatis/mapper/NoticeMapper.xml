@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.idoit.dao.NoticeDAO">
+
+    <!-- =========================
+         공지 목록
+         ========================= -->
+    <select id="selectNoticeList"
+            resultType="com.idoit.dto.NoticeDTO">
+        SELECT
+            nno,
+            ntitle,
+            ncontent,
+            npin,
+            ndate
+        FROM notice
+        ORDER BY
+            CASE WHEN npin = 'Y' THEN 0 ELSE 1 END,
+            ndate DESC
+    </select>
+
+    <!-- =========================
+         공지 상세
+         ========================= -->
+    <select id="selectNotice"
+            parameterType="int"
+            resultType="com.idoit.dto.NoticeDTO">
+        SELECT
+            nno,
+            ntitle,
+            ncontent,
+            npin,
+            ndate
+        FROM notice
+        WHERE nno = #{nno}
+    </select>
+
+    <!-- =========================
+         공지 등록
+         ========================= -->
+      <insert id="insertNotice" parameterType="com.idoit.dto.NoticeDTO">
+	    <selectKey keyProperty="nno" resultType="int" order="BEFORE">
+	      SELECT notice_seq.NEXTVAL FROM dual
+	    </selectKey>
+	
+	    INSERT INTO notice (
+	      nno, ntitle, ncontent, npin, ndate
+	    ) VALUES (
+	      #{nno},
+	      #{ntitle},
+	      #{ncontent},
+	      #{npin},
+	      SYSDATE
+	    )
+	  </insert>
+
+
+    <!-- =========================
+         공지 수정
+         ========================= -->
+    <update id="updateNotice"
+            parameterType="com.idoit.dto.NoticeDTO">
+        UPDATE notice
+        SET
+            ntitle   = #{ntitle},
+            ncontent = #{ncontent},
+            npin     = #{npin}
+        WHERE nno = #{nno}
+    </update>
+
+    <!-- =========================
+         공지 삭제
+         ========================= -->
+    <delete id="deleteNotice"
+            parameterType="int">
+        DELETE FROM notice
+        WHERE nno = #{nno}
+    </delete>
+    
+    <!-- =========================
+         이전 공지
+         (현재 nno보다 큰 것 중 가장 가까운 것)
+         ========================= -->
+    <select id="selectPrevNotice"
+            parameterType="int"
+            resultType="com.idoit.dto.NoticeDTO">
+        SELECT
+            nno,
+            ntitle,
+            ndate
+        FROM notice
+        WHERE nno &gt; #{nno}
+        ORDER BY nno ASC
+        FETCH FIRST 1 ROWS ONLY
+    </select>
+
+    <!-- =========================
+         다음 공지
+         (현재 nno보다 작은 것 중 가장 가까운 것)
+         ========================= -->
+    <select id="selectNextNotice"
+            parameterType="int"
+            resultType="com.idoit.dto.NoticeDTO">
+        SELECT
+            nno,
+            ntitle,
+            ndate
+        FROM notice
+        WHERE nno &lt; #{nno}
+        ORDER BY nno DESC
+        FETCH FIRST 1 ROWS ONLY
+    </select>
+    
+</mapper>

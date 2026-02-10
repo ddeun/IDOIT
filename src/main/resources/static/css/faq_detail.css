@@ -1,0 +1,97 @@
+@charset "UTF-8";
+
+/* =========================
+   FAQ DETAIL (GUIDE STYLE)
+========================= */
+
+/* ===== 페이지 공통 ===== */
+body {
+  background: #F5F7FA;
+  color: #1A1A1A;
+  line-height: 1.7;
+}
+
+/* =========================
+   전체 래퍼
+========================= */
+.guide-wrap {
+  max-width: 900px;
+  margin: 60px auto 80px;
+  padding: 0 20px;
+}
+
+/* =========================
+   질문 제목
+========================= */
+.guide-title {
+  font-size: 30px;
+  font-weight: 700;
+  color: #0F2E55;
+
+  margin-top: 0;
+  margin-bottom: 12px;
+}
+
+/* Q 표시 (CSS에서만 처리) */
+.guide-question::before {
+  content: "Q.";
+  margin-right: 10px;
+  font-weight: 700;
+  color: #0F2E55;
+}
+
+/* =========================
+   본문 영역
+========================= */
+.guide-content {
+  background: #FFFFFF;
+  border: 1px solid #E5E7EB;
+  border-radius: 14px;
+
+  padding: 10px 24px 20px;
+}
+
+/* 본문 텍스트 */
+.guide-content p {
+  font-size: 15px;
+
+  /* 여기 핵심 */
+  line-height: 1.55;      /* 줄바꿈 간격 줄이기 */
+  white-space: pre-line;  /* 엔터 유지 */
+
+  color: #333;
+
+  margin-top: 0;
+  margin-bottom: 12px;    /* 문단 간 간격도 살짝 축소 */
+}
+
+/* 마지막 문단 아래 여백 제거 */
+.guide-content p:last-child {
+  margin-bottom: 0;
+}
+
+/* =========================
+   문의 안내
+========================= */
+.guide-contact {
+  margin-top: 24px;
+  padding-top: 14px;
+  border-top: 1px solid #E5E7EB;
+
+  font-size: 14px;
+  color: #555;
+}
+
+/* =========================
+   반응형
+========================= */
+@media (max-width: 768px) {
+  .guide-title {
+    font-size: 22px;
+  }
+
+  .guide-content {
+    padding: 12px 18px 18px;
+  }
+}
+

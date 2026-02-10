@@ -1,0 +1,22 @@
+@charset "UTF-8";
+  .login-wrap{ max-width:420px; margin:0 auto; padding:40px 16px; }
+  .login-card{ background:#fff; border:1px solid var(--line); border-radius:16px; padding:22px; }
+  .tabs{ display:flex; gap:0; margin-bottom:14px; border-bottom:1px solid var(--line); }
+  .tab{
+    flex:1; text-align:center; padding:12px 0; font-weight:900;
+    color:var(--muted); cursor:pointer; user-select:none;
+  }
+  .tab.on{ color:var(--navy); border-bottom:3px solid var(--orange); }
+  .field{ display:flex; flex-direction:column; gap:6px; margin-top:10px; }
+  .field label{ font-size:13px; font-weight:800; color:var(--navy); }
+  .input{ border:1px solid var(--line); border-radius:12px; padding:12px; font-size:14px; outline:none; }
+  .input:focus{ border-color:var(--orange); }
+  .row{ display:flex; gap:10px; align-items:center; margin-top:10px; color:var(--muted); font-size:13px; }
+  .row a{ color:var(--navy); font-weight:800; }
+  .login-btn{ width:100%; margin-top:14px; }
+  .sub-links{ margin-top:10px; font-size:13px; color:var(--muted); text-align:center; }
+  .divider{ margin:18px 0; display:flex; align-items:center; gap:10px; color:var(--muted); font-size:12px; }
+  .divider:before,.divider:after{ content:""; flex:1; height:1px; background:var(--line); }
+  .social{ display:flex; justify-content:center; gap:10px; }
+  .social a{ width:44px; height:44px; border-radius:50%; border:1px solid var(--line); display:flex; align-items:center; justify-content:center; font-weight:900; color:var(--navy); }
+  .hint{ margin-top:8px; color:var(--muted); font-size:12px; text-align:center;}

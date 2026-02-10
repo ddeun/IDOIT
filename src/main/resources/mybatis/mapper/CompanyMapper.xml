@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.idoit.dao.CompanyDAO">
+
+  <select id="findByMno" parameterType="int" resultType="com.idoit.dto.CompanyDTO">
+    select
+      cno, cname, czipcode, caddr, caddrdetail, cpage,
+      ccontent, cimage, ccreate, cupdate, mno
+    from company
+    where mno = #{mno}
+    fetch first 1 rows only
+  </select>
+
+  <select id="listByMno" parameterType="int" resultType="com.idoit.dto.CompanyDTO">
+    select cno, cname, cbizno, czipcode, caddr, caddrdetail, cpage, ccontent, cimage,
+           ccreate, cupdate, mno, cestablish
+    from company
+    where mno = #{mno}
+    order by cno desc
+  </select>
+
+  <select id="countOwned" parameterType="map" resultType="int">
+    select count(*)
+    from company
+    where mno = #{mno}
+      and cno = #{cno}
+  </select>
+
+  <select id="findOwnedCompany" parameterType="map" resultType="com.idoit.dto.CompanyDTO">
+    select cno, cname, cbizno, czipcode, caddr, caddrdetail, cpage, ccontent, cimage,
+           ccreate, cupdate, mno, cestablish
+    from company
+    where mno = #{mno}
+      and cno = #{cno}
+  </select>
+
+  <!-- ✅ (추가) insertCompany -->
+  <insert id="insertCompany" parameterType="com.idoit.dto.CompanyDTO">
+    INSERT INTO company (
+      cno, cname, cbizno, czipcode, caddr, caddrdetail, cpage, ccontent, cimage,
+      ccreate, cupdate, mno, cestablish
+    ) VALUES (
+      company_seq.NEXTVAL,
+      #{cname},
+      #{cbizno},
+      #{czipcode},
+      #{caddr},
+      #{caddrdetail},
+      #{cpage},
+      #{ccontent},
+      #{cimage},
+      SYSDATE,
+      SYSDATE,
+      #{mno},
+      #{cestablish}
+    )
+  </insert>
+
+  <!-- ✅ (추가) updateOwned : 소유(mno) + cno 둘다 조건 -->
+<update id="updateOwned" parameterType="com.idoit.dto.CompanyDTO">
+  UPDATE company
+  <set>
+    <!-- 필수로 항상 업데이트해도 되는 값들 -->
+    cname       = #{cname},
+    cbizno      = #{cbizno},
+    czipcode    = #{czipcode},
+    caddr       = #{caddr},
+    caddrdetail = #{caddrdetail},
+    cpage       = #{cpage},
+    ccontent    = #{ccontent},
+    cimage      = #{cimage},
+
+    <!-- ✅ 날짜는 "값 있을 때만" 업데이트 (null이면 기존값 유지) -->
+    <if test="cestablish != null and cestablish != ''">
+      cestablish = TO_DATE(#{cestablish}, 'YYYY-MM-DD'),
+    </if>
+
+    cupdate     = SYSDATE
+  </set>
+  WHERE cno = #{cno}
+    AND mno = #{mno}
+</update>
+
+
+</mapper>

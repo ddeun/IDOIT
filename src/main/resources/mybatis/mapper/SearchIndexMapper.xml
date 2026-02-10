@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.idoit.dao.SearchIndexDAO">
+
+  <select id="selectJobPostingForIndex" resultType="com.idoit.dto.IndexRow">
+    SELECT jno AS pk, jtitle AS title, jcontent AS content
+    FROM job_posting
+  </select>
+
+  <select id="selectInterviewForIndex" resultType="com.idoit.dto.IndexRow">
+    SELECT ino AS pk, ititle AS title, icontent AS content
+    FROM interview
+  </select>
+
+  <select id="selectBoardForIndex" resultType="com.idoit.dto.IndexRow">
+    SELECT bno AS pk, btitle AS title, bcontent AS content
+    FROM board
+  </select>
+
+  <select id="selectNoticeForIndex" resultType="com.idoit.dto.IndexRow">
+    SELECT nno AS pk, ntitle AS title, ncontent AS content
+    FROM notice
+  </select>
+
+  <select id="selectFaqForIndex" resultType="com.idoit.dto.IndexRow">
+    SELECT fno AS pk, fquestion AS title, fanswer AS content
+    FROM faq
+  </select>
+
+</mapper>

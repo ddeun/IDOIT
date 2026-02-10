@@ -1,0 +1,146 @@
+@charset "UTF-8";
+
+/* 전체 배경 */
+body {
+  background: #F5F7FA;
+  color: #1F2937;
+  font-family: 'Pretendard', sans-serif;
+}
+
+/* 전체 래퍼 */
+.edit-wrap {
+  width: 800px;
+  margin: 60px auto;
+}
+
+/* 제목 */
+.edit-title {
+  text-align: center;
+  margin-bottom: 32px;
+  font-size: 26px;
+  font-weight: 700;
+  color: #ffffff;
+}
+
+/* 카드 */
+.edit-card {
+  background: #FFFFFF;
+  border: 1px solid #E5E7EB;
+  border-radius: 14px;
+  padding: 32px;
+}
+
+/* 한 줄 */
+.edit-row {
+  display: flex;
+  align-items: center;
+  padding: 12px 0;
+  border-bottom: 1px solid #E5E7EB;
+}
+
+.edit-row:last-child {
+  border-bottom: none;
+}
+
+/* 라벨 */
+.edit-label {
+  width: 160px;
+  font-weight: 600;
+  color: #374151;
+}
+
+/* 값 / 입력 */
+.edit-value,
+.edit-row input {
+  flex: 1;
+  font-size: 14px;
+}
+
+/* input 공통 */
+.edit-row input[type="text"],
+.edit-row input[type="date"] {
+  height: 36px;
+  padding: 0 10px;
+  border: 1px solid #D1D5DB;
+  border-radius: 6px;
+}
+
+/* radio */
+.edit-radio-group label {
+  margin-right: 20px;
+  font-size: 14px;
+}
+
+/* =========================
+   버튼 영역 (가운데 정렬)
+========================= */
+.edit-actions {
+  margin-top: 36px;
+  display: flex;
+  justify-content: center; /* ✅ 가운데 정렬 */
+  gap: 16px;
+}
+
+/* =========================
+   edit-actions 버튼 통일 + 크기 축소
+========================= */
+.edit-actions button,
+.edit-actions input[type="button"] {
+  min-width: 130px;   /* 160 → 130 */
+  height: 38px;       /* 44 → 38 */
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 0;
+  line-height: 1;
+  box-sizing: border-box;
+
+  border-radius: 6px;
+  font-size: 14px;    /* 15 → 14 */
+  font-weight: 600;
+
+  cursor: pointer;
+  outline: none;
+  box-shadow: none;
+}
+
+/* =========================
+   저장 버튼 (주 버튼)
+========================= */
+.btn-save {
+  background: #FF7A00;
+  color: #FFFFFF;
+  border: 1px solid #FF7A00;
+}
+
+/* =========================
+   취소 버튼 (보조 버튼 – 톤 다운)
+========================= */
+.btn-cancel {
+  background: #FFFFFF;
+  color: #0F2E55;
+  border: 1px solid #E5E7EB;
+}
+
+/* =========================
+   마이페이지 카드 뒤 네이비 배경
+========================= */
+.edit-wrap {
+  position: relative;
+}
+
+.edit-wrap::before {
+  content: "";
+  position: absolute;
+  top: -120px;              /* 헤더 아래 잘린 지점 조절 */
+  left: 50%;
+  transform: translateX(-50%);
+
+  width: 100vw;
+  height: 260px;            /* 네이비 배경 높이 */
+
+  background: #0F2E55;
+  z-index: -1;
+}

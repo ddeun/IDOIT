@@ -1,0 +1,234 @@
+@charset "UTF-8";
+
+body{
+  background:#F5F7FA;
+  color:#111827;
+}
+
+.detail-wrap{
+  width:1000px;
+  margin: 40px auto 70px;
+}
+
+.page-title{
+  margin: 0 0 18px;
+  font-size: 24px;
+  font-weight: 800;
+  color:#0F2E55;
+}
+
+.card{
+  background:#fff;
+  border:1px solid #E5E7EB;
+  border-radius: 14px;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.06);
+  overflow:hidden;
+  margin-bottom: 16px;
+}
+
+.card-head{
+  padding: 16px 18px;
+  border-bottom:1px solid #E5E7EB;
+  font-weight: 800;
+  color:#0F2E55;
+}
+
+.card-body{ padding: 18px; }
+
+.profile-row{
+  display:flex;
+  gap: 18px;
+  align-items:flex-start;
+}
+
+.photo-preview{
+  width:120px;
+  height:150px;
+  border:1px solid #E5E7EB;
+  border-radius: 12px;
+  overflow:hidden;
+  background:#F9FAFB;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+
+.photo-preview img{
+  width:100%;
+  height:100%;
+  object-fit: cover;
+}
+
+.info-table{
+  flex:1;
+  width:100%;
+  border-collapse: collapse;
+}
+
+.info-table td{
+  padding: 6px 10px;
+  font-size: 14px;
+}
+
+.info-table td strong{ color:#0F2E55; }
+
+/* ===== 상세 테이블 ===== */
+.detail-table{
+  width:100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  overflow:hidden;
+  border:1px solid #E5E7EB;
+  border-radius: 14px;
+}
+
+.detail-table th{
+  width: 190px;
+  background:#F3F4F6;
+  color:#0F2E55;
+  text-align:left;
+  padding: 12px 14px;
+  border-bottom:1px solid #E5E7EB;
+  font-weight: 800;
+}
+
+.detail-table td{
+  padding: 12px 14px;
+  border-bottom:1px solid #E5E7EB;
+  background:#fff;
+}
+
+.detail-table tr:last-child th,
+.detail-table tr:last-child td{
+  border-bottom:none;
+}
+
+/* ===== 스킬 뱃지 ===== */
+.badge{
+  display:inline-block;
+  border:1px solid #4A90E2;
+  color:#0F2E55;
+  background:#F0F7FF;
+  padding: 6px 12px;
+  margin: 6px 6px 0 0;
+  border-radius: 999px;
+  font-weight: 800;
+  font-size: 13px;
+}
+
+/* ===== 섹션 내 소테이블 ===== */
+.sub-table{
+  width:100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  border:1px solid #E5E7EB;
+  border-radius: 12px;
+  overflow:hidden;
+}
+
+.sub-table th{
+  background:#F9FAFB;
+  color:#0F2E55;
+  padding: 10px 12px;
+  border-bottom:1px solid #E5E7EB;
+  font-weight:800;
+  text-align:left;
+}
+
+.sub-table td{
+  padding: 10px 12px;
+  border-bottom:1px solid #E5E7EB;
+}
+
+.sub-table tr:last-child td{ border-bottom:none; }
+
+/* ===== 프로젝트 카드 ===== */
+.proj{
+  border:1px solid #E5E7EB;
+  background:#fff;
+  border-radius: 14px;
+  padding: 14px;
+  margin-bottom: 12px;
+}
+
+.proj-title{
+  font-weight: 900;
+  color:#0F2E55;
+}
+
+.proj-date{
+  margin-left: 8px;
+  color:#6B7280;
+  font-size: 13px;
+}
+
+.proj-summary{
+  margin: 8px 0 6px;
+  color:#374151;
+  font-style: italic;
+}
+
+.proj-content{
+  white-space: pre-wrap;
+  color:#111827;
+  line-height: 1.6;
+}
+
+.proj-link a{
+  color:#0F2E55;
+  font-weight: 800;
+  text-decoration: underline;
+}
+
+/* ===== 하단 버튼 ===== */
+.actions{
+  margin-top: 16px;
+  display:flex;
+  gap: 10px;
+  justify-content:flex-end;
+}
+
+.btn-primary{
+  border:none;
+  background:#0F2E55;
+  color:#fff;
+  padding: 10px 16px;
+  border-radius: 10px;
+  cursor:pointer;
+  font-weight:900;
+  text-decoration:none;
+}
+
+.btn-primary:hover{ filter: brightness(0.95); }
+
+.btn-outline{
+  border:1px solid #0F2E55;
+  background:#fff;
+  color:#0F2E55;
+  padding: 10px 16px;
+  border-radius: 10px;
+  cursor:pointer;
+  font-weight:900;
+  text-decoration:none;
+}
+
+.btn-outline:hover{
+  background:#0F2E55;
+  color:#fff;
+}
+
+.btn-danger{
+  border:1px solid #FECACA;
+  background:#FFF1F2;
+  color:#B42318;
+  padding: 10px 16px;
+  border-radius: 10px;
+  cursor:pointer;
+  font-weight:900;
+}
+
+.btn-danger:hover{ background:#FFE4E6; }
+
+@media (max-width: 1020px){
+  .detail-wrap{ width: calc(100% - 32px); }
+}
